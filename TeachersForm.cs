@@ -258,12 +258,17 @@ namespace SchoolClubsApp
 
         private void ShowTeacherClubs(int teacherId, string teacherName)
         {
-            // Запит для отримання гуртків викладача
             string query = $@"
-                SELECT c.club_name, c.description, c.schedule 
-                FROM clubs c 
-                INNER JOIN teacher_clubs tc ON c.club_id = tc.club_id 
-                WHERE tc.teacher_id = {teacherId}";
+        SELECT 
+            c.club_id,
+            c.club_name,
+            c.description,
+            c.age_restrictions,
+            c.max_students
+        FROM clubs c
+        WHERE c.teacher_id = {teacherId}";
+
+
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -273,26 +278,8 @@ namespace SchoolClubsApp
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     DataTable clubsTable = new DataTable();
                     adapter.Fill(clubsTable);
-
-                    string message = $"Викладач: {teacherName}\n\n";
-
-                    if (clubsTable.Rows.Count > 0)
-                    {
-                        message += "Гуртки, які веде цей викладач:\n\n";
-                        foreach (DataRow row in clubsTable.Rows)
-                        {
-                            message += $"• {row["club_name"]}\n";
-                            message += $"  Опис: {row["description"]}\n";
-                            message += $"  Розклад: {row["schedule"]}\n\n";
-                        }
-                    }
-                    else
-                    {
-                        message += "Цей викладач не веде жодних гуртків.";
-                    }
-
-                    MessageBox.Show(message, "Гуртки викладача",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dataGridView1.AutoGenerateColumns = true;
+                    dataGridView1.DataSource = clubsTable;
                 }
                 catch (Exception ex)
                 {
