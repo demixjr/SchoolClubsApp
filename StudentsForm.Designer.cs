@@ -30,18 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentsForm));
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.studentidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.firstnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.patronymicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.classDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parentphoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.studentsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.schoolClubsDBDataSet = new SchoolClubsApp.SchoolClubsDBDataSet();
             this.bindingNavigator1 = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.studentsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.schoolClubsDBDataSet = new SchoolClubsApp.SchoolClubsDBDataSet();
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
@@ -53,33 +45,260 @@
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.txtToolStripSearch = new System.Windows.Forms.ToolStripTextBox();
+            this.btnToolStripSearch = new System.Windows.Forms.ToolStripButton();
+            this.btnToolStripClearSearch = new System.Windows.Forms.ToolStripButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.studentidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.patronymicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.classDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parentphoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.studentsTableAdapter = new SchoolClubsApp.SchoolClubsDBDataSetTableAdapters.studentsTableAdapter();
-            this.groupBoxSearch = new System.Windows.Forms.GroupBox();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnClearSearch = new System.Windows.Forms.Button();
-            this.groupBoxFilter = new System.Windows.Forms.GroupBox();
-            this.comboBoxClassFilter = new System.Windows.Forms.ComboBox();
-            this.btnFilterByClass = new System.Windows.Forms.Button();
-            this.groupBoxSorting = new System.Windows.Forms.GroupBox();
-            this.btnSortByLastName = new System.Windows.Forms.Button();
-            this.btnSortByClass = new System.Windows.Forms.Button();
-            this.groupBoxQueries = new System.Windows.Forms.GroupBox();
-            this.comboBoxClassQuery = new System.Windows.Forms.ComboBox();
-            this.btnStudentsWithoutClubs = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.btnMultipleClubs = new System.Windows.Forms.Button();
-            this.dataGridViewQueryResults = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.schoolClubsDBDataSet)).BeginInit();
+            this.btnShowSchedule = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cmbClassFilter = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnFindWithoutClubs = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtConditionValue = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbGroupField = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cmbAggregateFunction = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmbAggregateField = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnAggregate = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtMaxValue = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtMinValue = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbFilterField = new System.Windows.Forms.ComboBox();
+            this.lblFilterField = new System.Windows.Forms.Label();
+            this.btnFilter = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cmbSortOrder = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbSortField = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnSort = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
-            this.groupBoxSearch.SuspendLayout();
-            this.groupBoxFilter.SuspendLayout();
-            this.groupBoxSorting.SuspendLayout();
-            this.groupBoxQueries.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewQueryResults)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.schoolClubsDBDataSet)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // bindingNavigator1
+            // 
+            this.bindingNavigator1.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.bindingNavigator1.BindingSource = this.studentsBindingSource;
+            this.bindingNavigator1.CountItem = this.bindingNavigatorCountItem;
+            this.bindingNavigator1.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.bindingNavigator1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.bindingNavigator1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bindingNavigatorMoveFirstItem,
+            this.bindingNavigatorMovePreviousItem,
+            this.bindingNavigatorSeparator,
+            this.bindingNavigatorPositionItem,
+            this.bindingNavigatorCountItem,
+            this.bindingNavigatorSeparator1,
+            this.bindingNavigatorMoveNextItem,
+            this.bindingNavigatorMoveLastItem,
+            this.bindingNavigatorSeparator2,
+            this.bindingNavigatorAddNewItem,
+            this.bindingNavigatorDeleteItem,
+            this.toolStripButton1,
+            this.toolStripSeparator1,
+            this.toolStripLabel1,
+            this.txtToolStripSearch,
+            this.btnToolStripSearch,
+            this.btnToolStripClearSearch});
+            this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
+            this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this.bindingNavigator1.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this.bindingNavigator1.Name = "bindingNavigator1";
+            this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
+            this.bindingNavigator1.Size = new System.Drawing.Size(1200, 27);
+            this.bindingNavigator1.TabIndex = 0;
+            this.bindingNavigator1.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorAddNewItem.Text = "Додати";
+            // 
+            // studentsBindingSource
+            // 
+            this.studentsBindingSource.DataMember = "students";
+            this.studentsBindingSource.DataSource = this.schoolClubsDBDataSet;
+            // 
+            // schoolClubsDBDataSet
+            // 
+            this.schoolClubsDBDataSet.DataSetName = "SchoolClubsDBDataSet";
+            this.schoolClubsDBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(55, 24);
+            this.bindingNavigatorCountItem.Text = "для {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Загальна кількість елементів";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorDeleteItem.Text = "Видалити";
+            // 
+            // bindingNavigatorMoveFirstItem
+            // 
+            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
+            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
+            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveFirstItem.Text = "Перемістити на початок";
+            // 
+            // bindingNavigatorMovePreviousItem
+            // 
+            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
+            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
+            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMovePreviousItem.Text = "Перемістити назад";
+            // 
+            // bindingNavigatorSeparator
+            // 
+            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
+            // 
+            // bindingNavigatorPositionItem
+            // 
+            this.bindingNavigatorPositionItem.AccessibleName = "Позиція";
+            this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
+            this.bindingNavigatorPositionItem.Text = "0";
+            this.bindingNavigatorPositionItem.ToolTipText = "Поточна позиція";
+            // 
+            // bindingNavigatorSeparator1
+            // 
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
+            // 
+            // bindingNavigatorMoveNextItem
+            // 
+            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
+            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
+            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveNextItem.Text = "Перемістити вперед";
+            // 
+            // bindingNavigatorMoveLastItem
+            // 
+            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
+            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
+            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveLastItem.Text = "Перемістити в кінець";
+            // 
+            // bindingNavigatorSeparator2
+            // 
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton1.Text = "Зберегти";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(58, 24);
+            this.toolStripLabel1.Text = "Пошук:";
+            // 
+            // txtToolStripSearch
+            // 
+            this.txtToolStripSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtToolStripSearch.Name = "txtToolStripSearch";
+            this.txtToolStripSearch.Size = new System.Drawing.Size(150, 27);
+            this.txtToolStripSearch.ToolTipText = "Пошук за прізвищем, ім\'ям або класом";
+            // 
+            // btnToolStripSearch
+            // 
+            this.btnToolStripSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnToolStripSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnToolStripSearch.Name = "btnToolStripSearch";
+            this.btnToolStripSearch.Size = new System.Drawing.Size(29, 24);
+            this.btnToolStripSearch.Text = "Шукати";
+            this.btnToolStripSearch.Click += new System.EventHandler(this.btnToolStripSearch_Click);
+            // 
+            // btnToolStripClearSearch
+            // 
+            this.btnToolStripClearSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnToolStripClearSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnToolStripClearSearch.Name = "btnToolStripClearSearch";
+            this.btnToolStripClearSearch.Size = new System.Drawing.Size(29, 24);
+            this.btnToolStripClearSearch.Text = "Очистити пошук";
+            this.btnToolStripClearSearch.Click += new System.EventHandler(this.btnToolStripClearSearch_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.dataGridView1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(300, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(900, 613);
+            this.panel1.TabIndex = 1;
             // 
             // dataGridView1
             // 
@@ -94,11 +313,12 @@
             this.parentphoneDataGridViewTextBoxColumn,
             this.emailDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.studentsBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 100);
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(776, 140);
+            this.dataGridView1.Size = new System.Drawing.Size(900, 613);
             this.dataGridView1.TabIndex = 0;
             // 
             // studentidDataGridViewTextBoxColumn
@@ -129,7 +349,7 @@
             // patronymicDataGridViewTextBoxColumn
             // 
             this.patronymicDataGridViewTextBoxColumn.DataPropertyName = "patronymic";
-            this.patronymicDataGridViewTextBoxColumn.HeaderText = "По батькові";
+            this.patronymicDataGridViewTextBoxColumn.HeaderText = "По-батькові";
             this.patronymicDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.patronymicDataGridViewTextBoxColumn.Name = "patronymicDataGridViewTextBoxColumn";
             this.patronymicDataGridViewTextBoxColumn.Width = 125;
@@ -158,328 +378,412 @@
             this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
             this.emailDataGridViewTextBoxColumn.Width = 150;
             // 
-            // studentsBindingSource
-            // 
-            this.studentsBindingSource.DataMember = "students";
-            this.studentsBindingSource.DataSource = this.schoolClubsDBDataSet;
-            // 
-            // schoolClubsDBDataSet
-            // 
-            this.schoolClubsDBDataSet.DataSetName = "SchoolClubsDBDataSet";
-            this.schoolClubsDBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // bindingNavigator1
-            // 
-            this.bindingNavigator1.AddNewItem = this.bindingNavigatorAddNewItem;
-            this.bindingNavigator1.BindingSource = this.studentsBindingSource;
-            this.bindingNavigator1.CountItem = this.bindingNavigatorCountItem;
-            this.bindingNavigator1.DeleteItem = this.bindingNavigatorDeleteItem;
-            this.bindingNavigator1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.bindingNavigator1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bindingNavigatorMoveFirstItem,
-            this.bindingNavigatorMovePreviousItem,
-            this.bindingNavigatorSeparator,
-            this.bindingNavigatorPositionItem,
-            this.bindingNavigatorCountItem,
-            this.bindingNavigatorSeparator1,
-            this.bindingNavigatorMoveNextItem,
-            this.bindingNavigatorMoveLastItem,
-            this.bindingNavigatorSeparator2,
-            this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem,
-            this.toolStripButton1});
-            this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
-            this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
-            this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
-            this.bindingNavigator1.MoveNextItem = this.bindingNavigatorMoveNextItem;
-            this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
-            this.bindingNavigator1.Name = "bindingNavigator1";
-            this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(1000, 27);
-            this.bindingNavigator1.TabIndex = 1;
-            this.bindingNavigator1.Text = "bindingNavigator1";
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorAddNewItem.Text = "Добавить";
-            // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(55, 24);
-            this.bindingNavigatorCountItem.Text = "для {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Общее число элементов";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorDeleteItem.Text = "Удалить";
-            // 
-            // bindingNavigatorMoveFirstItem
-            // 
-            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
-            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
-            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorMoveFirstItem.Text = "Переместить в начало";
-            // 
-            // bindingNavigatorMovePreviousItem
-            // 
-            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
-            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
-            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorMovePreviousItem.Text = "Переместить назад";
-            // 
-            // bindingNavigatorSeparator
-            // 
-            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
-            // 
-            // bindingNavigatorPositionItem
-            // 
-            this.bindingNavigatorPositionItem.AccessibleName = "Положение";
-            this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
-            this.bindingNavigatorPositionItem.Text = "0";
-            this.bindingNavigatorPositionItem.ToolTipText = "Текущее положение";
-            // 
-            // bindingNavigatorSeparator1
-            // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
-            // 
-            // bindingNavigatorMoveNextItem
-            // 
-            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
-            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
-            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorMoveNextItem.Text = "Переместить вперед";
-            // 
-            // bindingNavigatorMoveLastItem
-            // 
-            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
-            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
-            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorMoveLastItem.Text = "Переместить в конец";
-            // 
-            // bindingNavigatorSeparator2
-            // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(29, 24);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
             // studentsTableAdapter
             // 
             this.studentsTableAdapter.ClearBeforeFill = true;
             // 
-            // groupBoxSearch
+            // panel2
             // 
-            this.groupBoxSearch.Controls.Add(this.txtSearch);
-            this.groupBoxSearch.Controls.Add(this.btnSearch);
-            this.groupBoxSearch.Controls.Add(this.btnClearSearch);
-            this.groupBoxSearch.Location = new System.Drawing.Point(12, 40);
-            this.groupBoxSearch.Name = "groupBoxSearch";
-            this.groupBoxSearch.Size = new System.Drawing.Size(400, 50);
-            this.groupBoxSearch.TabIndex = 2;
-            this.groupBoxSearch.TabStop = false;
-            this.groupBoxSearch.Text = "Пошук учнів";
+            this.panel2.Controls.Add(this.btnMultipleClubs);
+            this.panel2.Controls.Add(this.btnShowSchedule);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 640);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1200, 50);
+            this.panel2.TabIndex = 2;
             // 
-            // txtSearch
+            // btnMultipleClubs
             // 
-            this.txtSearch.Location = new System.Drawing.Point(10, 20);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(200, 22);
-            this.txtSearch.TabIndex = 0;
-            this.txtSearch.Text = "Прізвище, ім\'я або клас";
+            this.btnMultipleClubs.Location = new System.Drawing.Point(240, 10);
+            this.btnMultipleClubs.Name = "btnMultipleClubs";
+            this.btnMultipleClubs.Size = new System.Drawing.Size(250, 30);
+            this.btnMultipleClubs.TabIndex = 2;
+            this.btnMultipleClubs.Text = "Учні з більш ніж одним гуртком";
+            this.btnMultipleClubs.UseVisualStyleBackColor = true;
+            this.btnMultipleClubs.Click += new System.EventHandler(this.btnMultipleClubs_Click);
+            // 
+            // btnShowSchedule
+            // 
+            this.btnShowSchedule.Location = new System.Drawing.Point(20, 10);
+            this.btnShowSchedule.Name = "btnShowSchedule";
+            this.btnShowSchedule.Size = new System.Drawing.Size(200, 30);
+            this.btnShowSchedule.TabIndex = 0;
+            this.btnShowSchedule.Text = "Розклад учня";
+            this.btnShowSchedule.UseVisualStyleBackColor = true;
+            this.btnShowSchedule.Click += new System.EventHandler(this.btnShowSchedule_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.groupBox5);
+            this.panel3.Controls.Add(this.groupBox3);
+            this.panel3.Controls.Add(this.groupBox2);
+            this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Controls.Add(this.groupBox4);
+            this.panel3.Controls.Add(this.btnReset);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel3.Location = new System.Drawing.Point(0, 27);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(300, 613);
+            this.panel3.TabIndex = 3;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cmbClassFilter);
+            this.groupBox5.Controls.Add(this.label9);
+            this.groupBox5.Controls.Add(this.btnFindWithoutClubs);
+            this.groupBox5.Location = new System.Drawing.Point(12, 446);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(276, 104);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Спеціальні запити";
+            // 
+            // cmbClassFilter
+            // 
+            this.cmbClassFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbClassFilter.FormattingEnabled = true;
+            this.cmbClassFilter.Location = new System.Drawing.Point(90, 25);
+            this.cmbClassFilter.Name = "cmbClassFilter";
+            this.cmbClassFilter.Size = new System.Drawing.Size(170, 24);
+            this.cmbClassFilter.TabIndex = 2;
+            this.cmbClassFilter.SelectedIndexChanged += new System.EventHandler(this.cmbClassFilter_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(10, 28);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 16);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Клас:";
+            // 
+            // btnFindWithoutClubs
+            // 
+            this.btnFindWithoutClubs.Location = new System.Drawing.Point(90, 55);
+            this.btnFindWithoutClubs.Name = "btnFindWithoutClubs";
+            this.btnFindWithoutClubs.Size = new System.Drawing.Size(170, 25);
+            this.btnFindWithoutClubs.TabIndex = 0;
+            this.btnFindWithoutClubs.Text = "Знайти без гуртків";
+            this.btnFindWithoutClubs.UseVisualStyleBackColor = true;
+            this.btnFindWithoutClubs.Click += new System.EventHandler(this.btnFindWithoutClubs_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtConditionValue);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.cmbGroupField);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.btnSearch);
+            this.groupBox3.Location = new System.Drawing.Point(12, 330);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(276, 120);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Пошук";
+            // 
+            // txtConditionValue
+            // 
+            this.txtConditionValue.Location = new System.Drawing.Point(90, 55);
+            this.txtConditionValue.Name = "txtConditionValue";
+            this.txtConditionValue.Size = new System.Drawing.Size(170, 22);
+            this.txtConditionValue.TabIndex = 4;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 58);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(74, 16);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Значення:";
+            // 
+            // cmbGroupField
+            // 
+            this.cmbGroupField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbGroupField.FormattingEnabled = true;
+            this.cmbGroupField.Location = new System.Drawing.Point(90, 25);
+            this.cmbGroupField.Name = "cmbGroupField";
+            this.cmbGroupField.Size = new System.Drawing.Size(170, 24);
+            this.cmbGroupField.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 28);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 16);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Поле:";
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(220, 18);
+            this.btnSearch.Location = new System.Drawing.Point(90, 85);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(80, 25);
-            this.btnSearch.TabIndex = 1;
+            this.btnSearch.Size = new System.Drawing.Size(170, 25);
+            this.btnSearch.TabIndex = 0;
             this.btnSearch.Text = "Пошук";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // btnClearSearch
+            // groupBox2
             // 
-            this.btnClearSearch.Location = new System.Drawing.Point(310, 18);
-            this.btnClearSearch.Name = "btnClearSearch";
-            this.btnClearSearch.Size = new System.Drawing.Size(80, 25);
-            this.btnClearSearch.TabIndex = 2;
-            this.btnClearSearch.Text = "Очистити";
-            this.btnClearSearch.UseVisualStyleBackColor = true;
-            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
+            this.groupBox2.Controls.Add(this.cmbAggregateFunction);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.cmbAggregateField);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.btnAggregate);
+            this.groupBox2.Location = new System.Drawing.Point(12, 230);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(276, 90);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Агрегатні функції";
             // 
-            // groupBoxFilter
+            // cmbAggregateFunction
             // 
-            this.groupBoxFilter.Controls.Add(this.comboBoxClassFilter);
-            this.groupBoxFilter.Controls.Add(this.btnFilterByClass);
-            this.groupBoxFilter.Location = new System.Drawing.Point(420, 40);
-            this.groupBoxFilter.Name = "groupBoxFilter";
-            this.groupBoxFilter.Size = new System.Drawing.Size(300, 50);
-            this.groupBoxFilter.TabIndex = 3;
-            this.groupBoxFilter.TabStop = false;
-            this.groupBoxFilter.Text = "Фільтрація за класом";
+            this.cmbAggregateFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAggregateFunction.FormattingEnabled = true;
+            this.cmbAggregateFunction.Location = new System.Drawing.Point(90, 55);
+            this.cmbAggregateFunction.Name = "cmbAggregateFunction";
+            this.cmbAggregateFunction.Size = new System.Drawing.Size(170, 24);
+            this.cmbAggregateFunction.TabIndex = 4;
             // 
-            // comboBoxClassFilter
+            // label3
             // 
-            this.comboBoxClassFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxClassFilter.FormattingEnabled = true;
-            this.comboBoxClassFilter.Location = new System.Drawing.Point(10, 20);
-            this.comboBoxClassFilter.Name = "comboBoxClassFilter";
-            this.comboBoxClassFilter.Size = new System.Drawing.Size(150, 24);
-            this.comboBoxClassFilter.TabIndex = 0;
-            this.comboBoxClassFilter.SelectedIndexChanged += new System.EventHandler(this.comboBoxClassFilter_SelectedIndexChanged);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 58);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(62, 16);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Функція:";
             // 
-            // btnFilterByClass
+            // cmbAggregateField
             // 
-            this.btnFilterByClass.Location = new System.Drawing.Point(170, 18);
-            this.btnFilterByClass.Name = "btnFilterByClass";
-            this.btnFilterByClass.Size = new System.Drawing.Size(120, 25);
-            this.btnFilterByClass.TabIndex = 1;
-            this.btnFilterByClass.Text = "Застосувати";
-            this.btnFilterByClass.UseVisualStyleBackColor = true;
-            this.btnFilterByClass.Click += new System.EventHandler(this.btnFilterByClass_Click);
+            this.cmbAggregateField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAggregateField.FormattingEnabled = true;
+            this.cmbAggregateField.Location = new System.Drawing.Point(90, 25);
+            this.cmbAggregateField.Name = "cmbAggregateField";
+            this.cmbAggregateField.Size = new System.Drawing.Size(170, 24);
+            this.cmbAggregateField.TabIndex = 2;
             // 
-            // groupBoxSorting
+            // label4
             // 
-            this.groupBoxSorting.Controls.Add(this.btnSortByLastName);
-            this.groupBoxSorting.Controls.Add(this.btnSortByClass);
-            this.groupBoxSorting.Location = new System.Drawing.Point(12, 250);
-            this.groupBoxSorting.Name = "groupBoxSorting";
-            this.groupBoxSorting.Size = new System.Drawing.Size(250, 60);
-            this.groupBoxSorting.TabIndex = 4;
-            this.groupBoxSorting.TabStop = false;
-            this.groupBoxSorting.Text = "Сортування";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 28);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 16);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Поле:";
             // 
-            // btnSortByLastName
+            // btnAggregate
             // 
-            this.btnSortByLastName.Location = new System.Drawing.Point(10, 25);
-            this.btnSortByLastName.Name = "btnSortByLastName";
-            this.btnSortByLastName.Size = new System.Drawing.Size(110, 25);
-            this.btnSortByLastName.TabIndex = 0;
-            this.btnSortByLastName.Text = "За прізвищем";
-            this.btnSortByLastName.UseVisualStyleBackColor = true;
-            this.btnSortByLastName.Click += new System.EventHandler(this.btnSortByLastName_Click);
+            this.btnAggregate.Location = new System.Drawing.Point(90, 55);
+            this.btnAggregate.Name = "btnAggregate";
+            this.btnAggregate.Size = new System.Drawing.Size(170, 25);
+            this.btnAggregate.TabIndex = 0;
+            this.btnAggregate.Text = "Обчислити";
+            this.btnAggregate.UseVisualStyleBackColor = true;
+            this.btnAggregate.Click += new System.EventHandler(this.btnAggregate_Click);
             // 
-            // btnSortByClass
+            // groupBox1
             // 
-            this.btnSortByClass.Location = new System.Drawing.Point(130, 25);
-            this.btnSortByClass.Name = "btnSortByClass";
-            this.btnSortByClass.Size = new System.Drawing.Size(110, 25);
-            this.btnSortByClass.TabIndex = 1;
-            this.btnSortByClass.Text = "За класом";
-            this.btnSortByClass.UseVisualStyleBackColor = true;
-            this.btnSortByClass.Click += new System.EventHandler(this.btnSortByClass_Click);
+            this.groupBox1.Controls.Add(this.txtMaxValue);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txtMinValue);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.cmbFilterField);
+            this.groupBox1.Controls.Add(this.lblFilterField);
+            this.groupBox1.Controls.Add(this.btnFilter);
+            this.groupBox1.Location = new System.Drawing.Point(12, 120);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(276, 112);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Фільтрація";
             // 
-            // groupBoxQueries
+            // txtMaxValue
             // 
-            this.groupBoxQueries.Controls.Add(this.comboBoxClassQuery);
-            this.groupBoxQueries.Controls.Add(this.btnStudentsWithoutClubs);
-            this.groupBoxQueries.Controls.Add(this.btnMultipleClubs);
-            this.groupBoxQueries.Location = new System.Drawing.Point(280, 250);
-            this.groupBoxQueries.Name = "groupBoxQueries";
-            this.groupBoxQueries.Size = new System.Drawing.Size(500, 60);
-            this.groupBoxQueries.TabIndex = 5;
-            this.groupBoxQueries.TabStop = false;
-            this.groupBoxQueries.Text = "Спеціальні запити";
+            this.txtMaxValue.Location = new System.Drawing.Point(200, 55);
+            this.txtMaxValue.Name = "txtMaxValue";
+            this.txtMaxValue.Size = new System.Drawing.Size(60, 22);
+            this.txtMaxValue.TabIndex = 6;
             // 
-            // comboBoxClassQuery
+            // label2
             // 
-            this.comboBoxClassQuery.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxClassQuery.FormattingEnabled = true;
-            this.comboBoxClassQuery.Location = new System.Drawing.Point(10, 25);
-            this.comboBoxClassQuery.Name = "comboBoxClassQuery";
-            this.comboBoxClassQuery.Size = new System.Drawing.Size(120, 24);
-            this.comboBoxClassQuery.TabIndex = 0;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(170, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(26, 16);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "до:";
             // 
-            // btnStudentsWithoutClubs
+            // txtMinValue
             // 
-            this.btnStudentsWithoutClubs.Location = new System.Drawing.Point(140, 23);
-            this.btnStudentsWithoutClubs.Name = "btnStudentsWithoutClubs";
-            this.btnStudentsWithoutClubs.Size = new System.Drawing.Size(170, 25);
-            this.btnStudentsWithoutClubs.TabIndex = 1;
-            this.btnStudentsWithoutClubs.Text = "Учні без гуртків";
-            this.btnStudentsWithoutClubs.UseVisualStyleBackColor = true;
-            this.btnStudentsWithoutClubs.Click += new System.EventHandler(this.btnStudentsWithoutClubs_Click);
+            this.txtMinValue.Location = new System.Drawing.Point(90, 55);
+            this.txtMinValue.Name = "txtMinValue";
+            this.txtMinValue.Size = new System.Drawing.Size(60, 22);
+            this.txtMinValue.TabIndex = 4;
             // 
-            // btnMultipleClubs
+            // label1
             // 
-            this.btnMultipleClubs.Location = new System.Drawing.Point(320, 23);
-            this.btnMultipleClubs.Name = "btnMultipleClubs";
-            this.btnMultipleClubs.Size = new System.Drawing.Size(170, 25);
-            this.btnMultipleClubs.TabIndex = 2;
-            this.btnMultipleClubs.Text = "Учні з >1 гуртком";
-            this.btnMultipleClubs.UseVisualStyleBackColor = true;
-            this.btnMultipleClubs.Click += new System.EventHandler(this.btnMultipleClubs_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 58);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 16);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Діапазон:";
             // 
-            // dataGridViewQueryResults
+            // cmbFilterField
             // 
-            this.dataGridViewQueryResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewQueryResults.Location = new System.Drawing.Point(12, 320);
-            this.dataGridViewQueryResults.Name = "dataGridViewQueryResults";
-            this.dataGridViewQueryResults.RowHeadersWidth = 51;
-            this.dataGridViewQueryResults.RowTemplate.Height = 24;
-            this.dataGridViewQueryResults.Size = new System.Drawing.Size(976, 200);
-            this.dataGridViewQueryResults.TabIndex = 6;
-            this.dataGridViewQueryResults.Visible = false;
+            this.cmbFilterField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterField.FormattingEnabled = true;
+            this.cmbFilterField.Location = new System.Drawing.Point(90, 25);
+            this.cmbFilterField.Name = "cmbFilterField";
+            this.cmbFilterField.Size = new System.Drawing.Size(170, 24);
+            this.cmbFilterField.TabIndex = 2;
+            // 
+            // lblFilterField
+            // 
+            this.lblFilterField.AutoSize = true;
+            this.lblFilterField.Location = new System.Drawing.Point(10, 28);
+            this.lblFilterField.Name = "lblFilterField";
+            this.lblFilterField.Size = new System.Drawing.Size(44, 16);
+            this.lblFilterField.TabIndex = 1;
+            this.lblFilterField.Text = "Поле:";
+            // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(90, 83);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(170, 25);
+            this.btnFilter.TabIndex = 0;
+            this.btnFilter.Text = "Фільтрувати";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cmbSortOrder);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.cmbSortField);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.btnSort);
+            this.groupBox4.Location = new System.Drawing.Point(12, 20);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(276, 90);
+            this.groupBox4.TabIndex = 1;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Сортування";
+            // 
+            // cmbSortOrder
+            // 
+            this.cmbSortOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSortOrder.FormattingEnabled = true;
+            this.cmbSortOrder.Location = new System.Drawing.Point(90, 55);
+            this.cmbSortOrder.Name = "cmbSortOrder";
+            this.cmbSortOrder.Size = new System.Drawing.Size(170, 24);
+            this.cmbSortOrder.TabIndex = 4;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(10, 58);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(66, 16);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Порядок:";
+            // 
+            // cmbSortField
+            // 
+            this.cmbSortField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSortField.FormattingEnabled = true;
+            this.cmbSortField.Location = new System.Drawing.Point(90, 25);
+            this.cmbSortField.Name = "cmbSortField";
+            this.cmbSortField.Size = new System.Drawing.Size(170, 24);
+            this.cmbSortField.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(44, 16);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Поле:";
+            // 
+            // btnSort
+            // 
+            this.btnSort.Location = new System.Drawing.Point(90, 55);
+            this.btnSort.Name = "btnSort";
+            this.btnSort.Size = new System.Drawing.Size(170, 25);
+            this.btnSort.TabIndex = 0;
+            this.btnSort.Text = "Сортувати";
+            this.btnSort.UseVisualStyleBackColor = true;
+            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(12, 560);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(276, 35);
+            this.btnReset.TabIndex = 0;
+            this.btnReset.Text = "Скинути фільтри";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 690);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1200, 26);
+            this.statusStrip1.TabIndex = 4;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1185, 20);
+            this.toolStripStatusLabel1.Spring = true;
+            this.toolStripStatusLabel1.Text = "Готово";
+            this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // StudentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 550);
-            this.Controls.Add(this.dataGridViewQueryResults);
-            this.Controls.Add(this.groupBoxQueries);
-            this.Controls.Add(this.groupBoxSorting);
-            this.Controls.Add(this.groupBoxFilter);
-            this.Controls.Add(this.groupBoxSearch);
+            this.ClientSize = new System.Drawing.Size(1200, 716);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.bindingNavigator1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.statusStrip1);
             this.Name = "StudentsForm";
-            this.Text = "Учні";
+            this.Text = "Управління учнями";
             this.Load += new System.EventHandler(this.StudentsForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.schoolClubsDBDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
             this.bindingNavigator1.ResumeLayout(false);
             this.bindingNavigator1.PerformLayout();
-            this.groupBoxSearch.ResumeLayout(false);
-            this.groupBoxSearch.PerformLayout();
-            this.groupBoxFilter.ResumeLayout(false);
-            this.groupBoxSorting.ResumeLayout(false);
-            this.groupBoxQueries.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewQueryResults)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.schoolClubsDBDataSet)).EndInit();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -487,17 +791,6 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private SchoolClubsDBDataSet schoolClubsDBDataSet;
-        private System.Windows.Forms.BindingSource studentsBindingSource;
-        private SchoolClubsDBDataSetTableAdapters.studentsTableAdapter studentsTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn studentidDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lastnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn firstnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn patronymicDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn parentphoneDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingNavigator bindingNavigator1;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
@@ -511,20 +804,59 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.GroupBox groupBoxSearch;
-        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private SchoolClubsDBDataSet schoolClubsDBDataSet;
+        private System.Windows.Forms.BindingSource studentsBindingSource;
+        private SchoolClubsDBDataSetTableAdapters.studentsTableAdapter studentsTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn studentidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn patronymicDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parentphoneDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripTextBox txtToolStripSearch;
+        private System.Windows.Forms.ToolStripButton btnToolStripSearch;
+        private System.Windows.Forms.ToolStripButton btnToolStripClearSearch;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnShowSchedule;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnSort;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnAggregate;
+        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.Button btnClearSearch;
-        private System.Windows.Forms.GroupBox groupBoxFilter;
-        private System.Windows.Forms.ComboBox comboBoxClassFilter;
-        private System.Windows.Forms.Button btnFilterByClass;
-        private System.Windows.Forms.GroupBox groupBoxSorting;
-        private System.Windows.Forms.Button btnSortByLastName;
-        private System.Windows.Forms.Button btnSortByClass;
-        private System.Windows.Forms.GroupBox groupBoxQueries;
-        private System.Windows.Forms.ComboBox comboBoxClassQuery;
-        private System.Windows.Forms.Button btnStudentsWithoutClubs;
+        private System.Windows.Forms.ComboBox cmbSortField;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox cmbSortOrder;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cmbFilterField;
+        private System.Windows.Forms.Label lblFilterField;
+        private System.Windows.Forms.TextBox txtMaxValue;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtMinValue;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbAggregateFunction;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbAggregateField;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtConditionValue;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cmbGroupField;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button btnFindWithoutClubs;
+        private System.Windows.Forms.ComboBox cmbClassFilter;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btnMultipleClubs;
-        private System.Windows.Forms.DataGridView dataGridViewQueryResults;
     }
 }
