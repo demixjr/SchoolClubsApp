@@ -52,13 +52,6 @@
             this.btnToolStripClearSearch = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.studentidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lastnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.firstnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.patronymicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.classDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parentphoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.studentsTableAdapter = new SchoolClubsApp.SchoolClubsDBDataSetTableAdapters.studentsTableAdapter();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnMultipleClubs = new System.Windows.Forms.Button();
@@ -67,27 +60,12 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cmbClassFilter = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.btnFindWithoutClubs = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtConditionValue = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbGroupField = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cmbAggregateFunction = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbAggregateField = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnAggregate = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtMaxValue = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtMinValue = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmbFilterField = new System.Windows.Forms.ComboBox();
-            this.lblFilterField = new System.Windows.Forms.Label();
-            this.btnFilter = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cmbSortOrder = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -97,6 +75,13 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.student_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.patronymicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.classDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parentphoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.studentsBindingSource)).BeginInit();
@@ -107,8 +92,6 @@
             this.panel3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -265,6 +248,7 @@
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(58, 24);
             this.toolStripLabel1.Text = "Пошук:";
+            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
             // 
             // txtToolStripSearch
             // 
@@ -305,9 +289,9 @@
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.studentidDataGridViewTextBoxColumn,
-            this.lastnameDataGridViewTextBoxColumn,
-            this.firstnameDataGridViewTextBoxColumn,
+            this.student_id,
+            this.last_name,
+            this.first_name,
             this.patronymicDataGridViewTextBoxColumn,
             this.classDataGridViewTextBoxColumn,
             this.parentphoneDataGridViewTextBoxColumn,
@@ -320,63 +304,6 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(900, 613);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // studentidDataGridViewTextBoxColumn
-            // 
-            this.studentidDataGridViewTextBoxColumn.DataPropertyName = "student_id";
-            this.studentidDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.studentidDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.studentidDataGridViewTextBoxColumn.Name = "studentidDataGridViewTextBoxColumn";
-            this.studentidDataGridViewTextBoxColumn.ReadOnly = true;
-            this.studentidDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // lastnameDataGridViewTextBoxColumn
-            // 
-            this.lastnameDataGridViewTextBoxColumn.DataPropertyName = "last_name";
-            this.lastnameDataGridViewTextBoxColumn.HeaderText = "Прізвище";
-            this.lastnameDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.lastnameDataGridViewTextBoxColumn.Name = "lastnameDataGridViewTextBoxColumn";
-            this.lastnameDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // firstnameDataGridViewTextBoxColumn
-            // 
-            this.firstnameDataGridViewTextBoxColumn.DataPropertyName = "first_name";
-            this.firstnameDataGridViewTextBoxColumn.HeaderText = "Ім\'я";
-            this.firstnameDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.firstnameDataGridViewTextBoxColumn.Name = "firstnameDataGridViewTextBoxColumn";
-            this.firstnameDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // patronymicDataGridViewTextBoxColumn
-            // 
-            this.patronymicDataGridViewTextBoxColumn.DataPropertyName = "patronymic";
-            this.patronymicDataGridViewTextBoxColumn.HeaderText = "По-батькові";
-            this.patronymicDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.patronymicDataGridViewTextBoxColumn.Name = "patronymicDataGridViewTextBoxColumn";
-            this.patronymicDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // classDataGridViewTextBoxColumn
-            // 
-            this.classDataGridViewTextBoxColumn.DataPropertyName = "class";
-            this.classDataGridViewTextBoxColumn.HeaderText = "Клас";
-            this.classDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.classDataGridViewTextBoxColumn.Name = "classDataGridViewTextBoxColumn";
-            this.classDataGridViewTextBoxColumn.Width = 80;
-            // 
-            // parentphoneDataGridViewTextBoxColumn
-            // 
-            this.parentphoneDataGridViewTextBoxColumn.DataPropertyName = "parent_phone";
-            this.parentphoneDataGridViewTextBoxColumn.HeaderText = "Телефон батьків";
-            this.parentphoneDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.parentphoneDataGridViewTextBoxColumn.Name = "parentphoneDataGridViewTextBoxColumn";
-            this.parentphoneDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // emailDataGridViewTextBoxColumn
-            // 
-            this.emailDataGridViewTextBoxColumn.DataPropertyName = "email";
-            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
-            this.emailDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
-            this.emailDataGridViewTextBoxColumn.Width = 150;
             // 
             // studentsTableAdapter
             // 
@@ -414,10 +341,9 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btnSort);
             this.panel3.Controls.Add(this.groupBox5);
             this.panel3.Controls.Add(this.groupBox3);
-            this.panel3.Controls.Add(this.groupBox2);
-            this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Controls.Add(this.groupBox4);
             this.panel3.Controls.Add(this.btnReset);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
@@ -430,13 +356,13 @@
             // 
             this.groupBox5.Controls.Add(this.cmbClassFilter);
             this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Controls.Add(this.btnFindWithoutClubs);
-            this.groupBox5.Location = new System.Drawing.Point(12, 446);
+            this.groupBox5.Location = new System.Drawing.Point(12, 396);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(276, 104);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Спеціальні запити";
+            this.groupBox5.Text = "Фільтр студентів за класом";
+            this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
             // 
             // cmbClassFilter
             // 
@@ -457,16 +383,6 @@
             this.label9.TabIndex = 1;
             this.label9.Text = "Клас:";
             // 
-            // btnFindWithoutClubs
-            // 
-            this.btnFindWithoutClubs.Location = new System.Drawing.Point(90, 55);
-            this.btnFindWithoutClubs.Name = "btnFindWithoutClubs";
-            this.btnFindWithoutClubs.Size = new System.Drawing.Size(170, 25);
-            this.btnFindWithoutClubs.TabIndex = 0;
-            this.btnFindWithoutClubs.Text = "Знайти без гуртків";
-            this.btnFindWithoutClubs.UseVisualStyleBackColor = true;
-            this.btnFindWithoutClubs.Click += new System.EventHandler(this.btnFindWithoutClubs_Click);
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.txtConditionValue);
@@ -474,7 +390,7 @@
             this.groupBox3.Controls.Add(this.cmbGroupField);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.btnSearch);
-            this.groupBox3.Location = new System.Drawing.Point(12, 330);
+            this.groupBox3.Location = new System.Drawing.Point(12, 226);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(276, 120);
             this.groupBox3.TabIndex = 4;
@@ -525,152 +441,15 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.cmbAggregateFunction);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.cmbAggregateField);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.btnAggregate);
-            this.groupBox2.Location = new System.Drawing.Point(12, 230);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(276, 90);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Агрегатні функції";
-            // 
-            // cmbAggregateFunction
-            // 
-            this.cmbAggregateFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAggregateFunction.FormattingEnabled = true;
-            this.cmbAggregateFunction.Location = new System.Drawing.Point(90, 55);
-            this.cmbAggregateFunction.Name = "cmbAggregateFunction";
-            this.cmbAggregateFunction.Size = new System.Drawing.Size(170, 24);
-            this.cmbAggregateFunction.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 58);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 16);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Функція:";
-            // 
-            // cmbAggregateField
-            // 
-            this.cmbAggregateField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAggregateField.FormattingEnabled = true;
-            this.cmbAggregateField.Location = new System.Drawing.Point(90, 25);
-            this.cmbAggregateField.Name = "cmbAggregateField";
-            this.cmbAggregateField.Size = new System.Drawing.Size(170, 24);
-            this.cmbAggregateField.TabIndex = 2;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 28);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 16);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Поле:";
-            // 
-            // btnAggregate
-            // 
-            this.btnAggregate.Location = new System.Drawing.Point(90, 55);
-            this.btnAggregate.Name = "btnAggregate";
-            this.btnAggregate.Size = new System.Drawing.Size(170, 25);
-            this.btnAggregate.TabIndex = 0;
-            this.btnAggregate.Text = "Обчислити";
-            this.btnAggregate.UseVisualStyleBackColor = true;
-            this.btnAggregate.Click += new System.EventHandler(this.btnAggregate_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.txtMaxValue);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txtMinValue);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.cmbFilterField);
-            this.groupBox1.Controls.Add(this.lblFilterField);
-            this.groupBox1.Controls.Add(this.btnFilter);
-            this.groupBox1.Location = new System.Drawing.Point(12, 120);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(276, 112);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Фільтрація";
-            // 
-            // txtMaxValue
-            // 
-            this.txtMaxValue.Location = new System.Drawing.Point(200, 55);
-            this.txtMaxValue.Name = "txtMaxValue";
-            this.txtMaxValue.Size = new System.Drawing.Size(60, 22);
-            this.txtMaxValue.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(170, 58);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(26, 16);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "до:";
-            // 
-            // txtMinValue
-            // 
-            this.txtMinValue.Location = new System.Drawing.Point(90, 55);
-            this.txtMinValue.Name = "txtMinValue";
-            this.txtMinValue.Size = new System.Drawing.Size(60, 22);
-            this.txtMinValue.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 58);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 16);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Діапазон:";
-            // 
-            // cmbFilterField
-            // 
-            this.cmbFilterField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFilterField.FormattingEnabled = true;
-            this.cmbFilterField.Location = new System.Drawing.Point(90, 25);
-            this.cmbFilterField.Name = "cmbFilterField";
-            this.cmbFilterField.Size = new System.Drawing.Size(170, 24);
-            this.cmbFilterField.TabIndex = 2;
-            // 
-            // lblFilterField
-            // 
-            this.lblFilterField.AutoSize = true;
-            this.lblFilterField.Location = new System.Drawing.Point(10, 28);
-            this.lblFilterField.Name = "lblFilterField";
-            this.lblFilterField.Size = new System.Drawing.Size(44, 16);
-            this.lblFilterField.TabIndex = 1;
-            this.lblFilterField.Text = "Поле:";
-            // 
-            // btnFilter
-            // 
-            this.btnFilter.Location = new System.Drawing.Point(90, 83);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(170, 25);
-            this.btnFilter.TabIndex = 0;
-            this.btnFilter.Text = "Фільтрувати";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cmbSortOrder);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.cmbSortField);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.btnSort);
             this.groupBox4.Location = new System.Drawing.Point(12, 20);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(276, 90);
+            this.groupBox4.Size = new System.Drawing.Size(276, 82);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Сортування";
@@ -679,7 +458,7 @@
             // 
             this.cmbSortOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSortOrder.FormattingEnabled = true;
-            this.cmbSortOrder.Location = new System.Drawing.Point(90, 55);
+            this.cmbSortOrder.Location = new System.Drawing.Point(90, 50);
             this.cmbSortOrder.Name = "cmbSortOrder";
             this.cmbSortOrder.Size = new System.Drawing.Size(170, 24);
             this.cmbSortOrder.TabIndex = 4;
@@ -713,7 +492,7 @@
             // 
             // btnSort
             // 
-            this.btnSort.Location = new System.Drawing.Point(90, 55);
+            this.btnSort.Location = new System.Drawing.Point(102, 108);
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(170, 25);
             this.btnSort.TabIndex = 0;
@@ -750,6 +529,63 @@
             this.toolStripStatusLabel1.Text = "Готово";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // student_id
+            // 
+            this.student_id.DataPropertyName = "student_id";
+            this.student_id.HeaderText = "ID";
+            this.student_id.MinimumWidth = 6;
+            this.student_id.Name = "student_id";
+            this.student_id.ReadOnly = true;
+            this.student_id.Width = 50;
+            // 
+            // last_name
+            // 
+            this.last_name.DataPropertyName = "last_name";
+            this.last_name.HeaderText = "Прізвище";
+            this.last_name.MinimumWidth = 6;
+            this.last_name.Name = "last_name";
+            this.last_name.Width = 125;
+            // 
+            // first_name
+            // 
+            this.first_name.DataPropertyName = "first_name";
+            this.first_name.HeaderText = "Ім\'я";
+            this.first_name.MinimumWidth = 6;
+            this.first_name.Name = "first_name";
+            this.first_name.Width = 125;
+            // 
+            // patronymicDataGridViewTextBoxColumn
+            // 
+            this.patronymicDataGridViewTextBoxColumn.DataPropertyName = "patronymic";
+            this.patronymicDataGridViewTextBoxColumn.HeaderText = "По-батькові";
+            this.patronymicDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.patronymicDataGridViewTextBoxColumn.Name = "patronymicDataGridViewTextBoxColumn";
+            this.patronymicDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // classDataGridViewTextBoxColumn
+            // 
+            this.classDataGridViewTextBoxColumn.DataPropertyName = "class";
+            this.classDataGridViewTextBoxColumn.HeaderText = "Клас";
+            this.classDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.classDataGridViewTextBoxColumn.Name = "classDataGridViewTextBoxColumn";
+            this.classDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // parentphoneDataGridViewTextBoxColumn
+            // 
+            this.parentphoneDataGridViewTextBoxColumn.DataPropertyName = "parent_phone";
+            this.parentphoneDataGridViewTextBoxColumn.HeaderText = "Телефон батьків";
+            this.parentphoneDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.parentphoneDataGridViewTextBoxColumn.Name = "parentphoneDataGridViewTextBoxColumn";
+            this.parentphoneDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // emailDataGridViewTextBoxColumn
+            // 
+            this.emailDataGridViewTextBoxColumn.DataPropertyName = "email";
+            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            this.emailDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.Width = 150;
+            // 
             // StudentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -776,10 +612,6 @@
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -808,13 +640,6 @@
         private SchoolClubsDBDataSet schoolClubsDBDataSet;
         private System.Windows.Forms.BindingSource studentsBindingSource;
         private SchoolClubsDBDataSetTableAdapters.studentsTableAdapter studentsTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn studentidDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lastnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn firstnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn patronymicDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn parentphoneDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox txtToolStripSearch;
@@ -827,26 +652,12 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnSort;
         private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnFilter;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnAggregate;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.ComboBox cmbSortField;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbSortOrder;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox cmbFilterField;
-        private System.Windows.Forms.Label lblFilterField;
-        private System.Windows.Forms.TextBox txtMaxValue;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtMinValue;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmbAggregateFunction;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbAggregateField;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtConditionValue;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbGroupField;
@@ -854,9 +665,15 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Button btnFindWithoutClubs;
         private System.Windows.Forms.ComboBox cmbClassFilter;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btnMultipleClubs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn student_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn last_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn first_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn patronymicDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parentphoneDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
     }
 }

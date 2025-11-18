@@ -92,6 +92,7 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.teachersBindingSource)).BeginInit();
@@ -378,6 +379,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.btnShowClubs);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 494);
@@ -399,9 +401,11 @@
             // 
             this.panel3.Controls.Add(this.groupBox3);
             this.panel3.Controls.Add(this.groupBox2);
+            this.panel3.Controls.Add(this.btnSort);
             this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Controls.Add(this.groupBox4);
             this.panel3.Controls.Add(this.btnReset);
+            this.panel3.Controls.Add(this.btnFilter);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 27);
             this.panel3.Name = "panel3";
@@ -415,9 +419,9 @@
             this.groupBox3.Controls.Add(this.cmbGroupField);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.btnSearch);
-            this.groupBox3.Location = new System.Drawing.Point(12, 330);
+            this.groupBox3.Location = new System.Drawing.Point(12, 355);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(276, 120);
+            this.groupBox3.Size = new System.Drawing.Size(276, 112);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Пошук";
@@ -470,12 +474,12 @@
             // 
             this.groupBox2.Controls.Add(this.cmbAggregateFunction);
             this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.btnAggregate);
             this.groupBox2.Controls.Add(this.cmbAggregateField);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.btnAggregate);
             this.groupBox2.Location = new System.Drawing.Point(12, 230);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(276, 90);
+            this.groupBox2.Size = new System.Drawing.Size(276, 149);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Агрегатні функції";
@@ -488,6 +492,7 @@
             this.cmbAggregateFunction.Name = "cmbAggregateFunction";
             this.cmbAggregateFunction.Size = new System.Drawing.Size(170, 24);
             this.cmbAggregateFunction.TabIndex = 4;
+            this.cmbAggregateFunction.SelectedIndexChanged += new System.EventHandler(this.cmbAggregateFunction_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -518,9 +523,9 @@
             // 
             // btnAggregate
             // 
-            this.btnAggregate.Location = new System.Drawing.Point(90, 55);
+            this.btnAggregate.Location = new System.Drawing.Point(90, 85);
             this.btnAggregate.Name = "btnAggregate";
-            this.btnAggregate.Size = new System.Drawing.Size(170, 25);
+            this.btnAggregate.Size = new System.Drawing.Size(170, 34);
             this.btnAggregate.TabIndex = 0;
             this.btnAggregate.Text = "Обчислити";
             this.btnAggregate.UseVisualStyleBackColor = true;
@@ -534,10 +539,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cmbFilterField);
             this.groupBox1.Controls.Add(this.lblFilterField);
-            this.groupBox1.Controls.Add(this.btnFilter);
             this.groupBox1.Location = new System.Drawing.Point(12, 120);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(276, 100);
+            this.groupBox1.Size = new System.Drawing.Size(276, 86);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Фільтрація";
@@ -594,7 +598,7 @@
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(90, 79);
+            this.btnFilter.Location = new System.Drawing.Point(102, 203);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(170, 25);
             this.btnFilter.TabIndex = 0;
@@ -608,7 +612,6 @@
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.cmbSortField);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.btnSort);
             this.groupBox4.Location = new System.Drawing.Point(12, 20);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(276, 90);
@@ -654,7 +657,7 @@
             // 
             // btnSort
             // 
-            this.btnSort.Location = new System.Drawing.Point(90, 55);
+            this.btnSort.Location = new System.Drawing.Point(102, 105);
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(170, 25);
             this.btnSort.TabIndex = 0;
@@ -690,6 +693,16 @@
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "Готово";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(941, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(187, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Звітність";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // TeachersForm
             // 
@@ -792,5 +805,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.XPath;
@@ -554,5 +555,424 @@ namespace SchoolClubsApp
             clubsBindingSource.RemoveFilter();
             toolStripStatusLabel1.Text = "Пошук скинуто";
         }
+        // Звіт про відвідуваність
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Спочатку вибираємо гурток
+            using (var clubForm = new Form())
+            {
+                clubForm.Text = "Вибір гуртка";
+                clubForm.Size = new Size(400, 200);
+                clubForm.StartPosition = FormStartPosition.CenterParent;
+                clubForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                var lblTitle = new Label()
+                {
+                    Text = "Оберіть гурток:",
+                    Location = new Point(20, 20),
+                    AutoSize = true
+                };
+
+                var cmbClubs = new ComboBox()
+                {
+                    Location = new Point(20, 50),
+                    Size = new Size(300, 24),
+                    DropDownStyle = ComboBoxStyle.DropDownList
+                };
+
+                var btnOK = new Button()
+                {
+                    Text = "ОК",
+                    Location = new Point(100, 90),
+                    Size = new Size(80, 30),
+                    DialogResult = DialogResult.OK
+                };
+
+                var btnCancel = new Button()
+                {
+                    Text = "Скасувати",
+                    Location = new Point(190, 90),
+                    Size = new Size(80, 30),
+                    DialogResult = DialogResult.Cancel
+                };
+
+                // Завантажуємо список гуртків
+                LoadClubsToComboBox(cmbClubs);
+
+                clubForm.Controls.AddRange(new Control[] { lblTitle, cmbClubs, btnOK, btnCancel });
+
+                if (clubForm.ShowDialog() == DialogResult.OK && cmbClubs.SelectedItem != null)
+                {
+                    int clubId = ((dynamic)cmbClubs.SelectedItem).Value;
+                    string clubName = ((dynamic)cmbClubs.SelectedItem).Text;
+
+                    // Тепер вибираємо тип звіту
+                    ShowReportTypeDialog(clubId, clubName);
+                }
+            }
+        }
+
+        // Завантажити гуртки в комбобокс
+        private void LoadClubsToComboBox(ComboBox cmbClubs)
+        {
+            string query = "SELECT club_id, club_name FROM clubs ORDER BY club_name";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        cmbClubs.Items.Add(new
+                        {
+                            Text = reader["club_name"].ToString(),
+                            Value = reader["club_id"]
+                        });
+                    }
+                    reader.Close();
+
+                    if (cmbClubs.Items.Count > 0)
+                        cmbClubs.SelectedIndex = 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка завантаження гуртків: " + ex.Message, "Помилка");
+                }
+            }
+        }
+
+        // Вибір типу звіту
+        private void ShowReportTypeDialog(int clubId, string clubName)
+        {
+            using (var typeForm = new Form())
+            {
+                typeForm.Text = "Тип звіту для: " + clubName;
+                typeForm.Size = new Size(350, 200);
+                typeForm.StartPosition = FormStartPosition.CenterParent;
+                typeForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                var lblTitle = new Label()
+                {
+                    Text = "Оберіть тип звіту:",
+                    Location = new Point(20, 20),
+                    AutoSize = true
+                };
+
+                var btnByDates = new Button()
+                {
+                    Text = "За конкретними датами",
+                    Location = new Point(20, 60),
+                    Size = new Size(200, 30)
+                };
+
+                var btnByPeriod = new Button()
+                {
+                    Text = "За період",
+                    Location = new Point(20, 100),
+                    Size = new Size(200, 30)
+                };
+
+                var btnCancel = new Button()
+                {
+                    Text = "Скасувати",
+                    Location = new Point(230, 80),
+                    Size = new Size(80, 30),
+                    DialogResult = DialogResult.Cancel
+                };
+
+                btnByDates.Click += (s, ev) => { typeForm.DialogResult = DialogResult.Yes; ShowDateReport(clubId, clubName); };
+                btnByPeriod.Click += (s, ev) => { typeForm.DialogResult = DialogResult.Yes; ShowPeriodReport(clubId, clubName); };
+
+                typeForm.Controls.AddRange(new Control[] { lblTitle, btnByDates, btnByPeriod, btnCancel });
+                typeForm.ShowDialog();
+            }
+        }
+
+        // Звіт за конкретними датами
+        private void ShowDateReport(int clubId, string clubName)
+        {
+            using (var dateForm = new Form())
+            {
+                dateForm.Text = "Звіт за датами - " + clubName;
+                dateForm.Size = new Size(500, 400);
+                dateForm.StartPosition = FormStartPosition.CenterParent;
+
+                var lblInfo = new Label()
+                {
+                    Text = $"Гурток: {clubName}\n\nОберіть дати для перегляду відвідуваності:",
+                    Location = new Point(20, 20),
+                    AutoSize = true
+                };
+
+                var lstDates = new ListBox()
+                {
+                    Location = new Point(20, 80),
+                    Size = new Size(200, 200)
+                };
+
+                var btnShow = new Button()
+                {
+                    Text = "Показати звіт",
+                    Location = new Point(240, 80),
+                    Size = new Size(100, 30)
+                };
+
+                var btnClose = new Button()
+                {
+                    Text = "Закрити",
+                    Location = new Point(240, 120),
+                    Size = new Size(100, 30)
+                };
+
+                // Завантажуємо доступні дати
+                LoadAvailableDates(clubId, lstDates);
+
+                btnShow.Click += (s, ev) =>
+                {
+                    if (lstDates.SelectedItems.Count > 0)
+                    {
+                        string selectedDate = lstDates.SelectedItem.ToString();
+                        ShowAttendanceForDate(clubId, clubName, selectedDate);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Оберіть дату зі списку", "Інформація");
+                    }
+                };
+
+                btnClose.Click += (s, ev) => dateForm.Close();
+
+                dateForm.Controls.AddRange(new Control[] { lblInfo, lstDates, btnShow, btnClose });
+                dateForm.ShowDialog();
+            }
+        }
+
+        // Завантажити доступні дати
+        private void LoadAvailableDates(int clubId, ListBox lstDates)
+        {
+            string query = @"
+        SELECT DISTINCT a.lesson_date 
+        FROM attendance a
+        INNER JOIN enrollments e ON a.enrollment_id = e.enrollment_id
+        WHERE e.club_id = @clubId
+        ORDER BY a.lesson_date DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@clubId", clubId);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        lstDates.Items.Add(reader["lesson_date"].ToString());
+                    }
+                    reader.Close();
+
+                    if (lstDates.Items.Count > 0)
+                        lstDates.SelectedIndex = 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка завантаження дат: " + ex.Message, "Помилка");
+                }
+            }
+        }
+
+        // Показати відвідуваність за конкретну дату
+        private void ShowAttendanceForDate(int clubId, string clubName, string date)
+        {
+            string query = @"
+        SELECT 
+            s.last_name + ' ' + s.first_name AS Учень,
+            s.class AS Клас,
+            a.status AS Статус
+        FROM attendance a
+        INNER JOIN enrollments e ON a.enrollment_id = e.enrollment_id
+        INNER JOIN students s ON e.student_id = s.student_id
+        WHERE e.club_id = @clubId AND a.lesson_date = @date
+        ORDER BY s.last_name, s.first_name";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@clubId", clubId);
+                    command.Parameters.AddWithValue("@date", date);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+
+                    ShowReportInDialog(dataTable, $"Відвідуваність {clubName} за {date}");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка завантаження даних: " + ex.Message, "Помилка");
+                }
+            }
+        }
+
+        // Звіт за період
+        private void ShowPeriodReport(int clubId, string clubName)
+        {
+            using (var periodForm = new Form())
+            {
+                periodForm.Text = "Звіт за період - " + clubName;
+                periodForm.Size = new Size(400, 250);
+                periodForm.StartPosition = FormStartPosition.CenterParent;
+                periodForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                var lblStart = new Label()
+                {
+                    Text = "Дата початку:",
+                    Location = new Point(20, 20),
+                    AutoSize = true
+                };
+
+                var dtpStart = new DateTimePicker()
+                {
+                    Location = new Point(120, 20),
+                    Size = new Size(150, 24),
+                    Value = DateTime.Now.AddMonths(-1)
+                };
+
+                var lblEnd = new Label()
+                {
+                    Text = "Дата кінця:",
+                    Location = new Point(20, 60),
+                    AutoSize = true
+                };
+
+                var dtpEnd = new DateTimePicker()
+                {
+                    Location = new Point(120, 60),
+                    Size = new Size(150, 24),
+                    Value = DateTime.Now
+                };
+
+                var btnShow = new Button()
+                {
+                    Text = "Показати звіт",
+                    Location = new Point(100, 100),
+                    Size = new Size(100, 30)
+                };
+
+                var btnCancel = new Button()
+                {
+                    Text = "Скасувати",
+                    Location = new Point(210, 100),
+                    Size = new Size(100, 30),
+                    DialogResult = DialogResult.Cancel
+                };
+
+                btnShow.Click += (s, ev) =>
+                {
+                    string startDate = dtpStart.Value.ToString("yyyy-MM-dd");
+                    string endDate = dtpEnd.Value.ToString("yyyy-MM-dd");
+                    ShowAttendanceForPeriod(clubId, clubName, startDate, endDate);
+                    periodForm.Close();
+                };
+
+                periodForm.Controls.AddRange(new Control[] {
+            lblStart, dtpStart, lblEnd, dtpEnd, btnShow, btnCancel
+        });
+                periodForm.ShowDialog();
+            }
+        }
+
+        // Показати відвідуваність за період
+        private void ShowAttendanceForPeriod(int clubId, string clubName, string startDate, string endDate)
+        {
+            string query = @"
+        SELECT 
+            s.last_name + ' ' + s.first_name AS Учень,
+            s.class AS Клас,
+            COUNT(a.attendance_id) AS [Всього занять],
+            SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) AS [Відвідав],
+            SUM(CASE WHEN a.status = 'пропустив' THEN 1 ELSE 0 END) AS [Пропустив],
+            CASE 
+                WHEN COUNT(a.attendance_id) > 0 
+                THEN FORMAT(SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) * 100.0 / COUNT(a.attendance_id), 'N1') + '%'
+                ELSE '0%'
+            END AS [Відсоток відвідування]
+        FROM students s
+        INNER JOIN enrollments e ON s.student_id = e.student_id
+        LEFT JOIN attendance a ON e.enrollment_id = a.enrollment_id 
+            AND a.lesson_date BETWEEN @startDate AND @endDate
+        WHERE e.club_id = @clubId AND e.status = 'активний'
+        GROUP BY s.student_id, s.last_name, s.first_name, s.class
+        ORDER BY s.last_name, s.first_name";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@clubId", clubId);
+                    command.Parameters.AddWithValue("@startDate", startDate);
+                    command.Parameters.AddWithValue("@endDate", endDate);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+
+                    string title = $"Відвідуваність {clubName} за період {startDate} - {endDate}";
+                    ShowReportInDialog(dataTable, title);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка завантаження даних: " + ex.Message, "Помилка");
+                }
+            }
+        }
+
+        // Показати звіт у діалоговому вікні
+        private void ShowReportInDialog(DataTable data, string title)
+        {
+            if (data.Rows.Count == 0)
+            {
+                MessageBox.Show("Немає даних для відображення", "Інформація");
+                return;
+            }
+
+            using (var reportForm = new Form())
+            {
+                reportForm.Text = title;
+                reportForm.Size = new Size(800, 500);
+                reportForm.StartPosition = FormStartPosition.CenterParent;
+
+                var dataGridView = new DataGridView()
+                {
+                    Dock = DockStyle.Fill,
+                    ReadOnly = true,
+                    AllowUserToAddRows = false,
+                    DataSource = data
+                };
+
+                var btnClose = new Button()
+                {
+                    Text = "Закрити",
+                    Size = new Size(80, 30),
+                    Location = new Point(350, 420)
+                };
+                btnClose.Click += (s, ev) => reportForm.Close();
+
+                reportForm.Controls.Add(dataGridView);
+                reportForm.Controls.Add(btnClose);
+                reportForm.ShowDialog();
+            }
+        }
+
     }
 }

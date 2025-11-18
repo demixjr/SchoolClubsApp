@@ -52,15 +52,14 @@ namespace SchoolClubsApp
         private void StudentsForm_Load(object sender, EventArgs e)
         {
             this.studentsTableAdapter.Fill(this.schoolClubsDBDataSet.students);
+            dataGridView1.DataSource = studentsBindingSource;
 
             // Заповнення комбобоксів
             cmbSortField.Items.AddRange(new string[] { "last_name", "first_name", "class", "parent_phone" });
-            cmbFilterField.Items.AddRange(new string[] { "student_id", "last_name", "class" });
-            cmbAggregateField.Items.AddRange(new string[] { "student_id" });
             cmbGroupField.Items.AddRange(new string[] { "last_name", "first_name", "class" });
 
             cmbSortOrder.Items.AddRange(new string[] { "ASC", "DESC" });
-            cmbAggregateFunction.Items.AddRange(new string[] { "COUNT", "MAX", "MIN" });
+         
 
             // Заповнення комбобоксу для фільтрації за класом
             cmbClassFilter.Items.Add("Всі класи");
@@ -69,9 +68,6 @@ namespace SchoolClubsApp
             // Встановлення значень за замовчуванням
             cmbSortField.SelectedIndex = 0;
             cmbSortOrder.SelectedIndex = 0;
-            cmbFilterField.SelectedIndex = 0;
-            cmbAggregateField.SelectedIndex = 0;
-            cmbAggregateFunction.SelectedIndex = 0;
             cmbGroupField.SelectedIndex = 0;
             cmbClassFilter.SelectedIndex = 0;
         }
@@ -120,111 +116,6 @@ namespace SchoolClubsApp
             }
         }
 
-        // Фільтрація
-        private void btnFilter_Click(object sender, EventArgs e)
-        {
-            string field = cmbFilterField.Text;
-            string minValue = txtMinValue.Text;
-            string maxValue = txtMaxValue.Text;
-
-            if (string.IsNullOrEmpty(field))
-            {
-                MessageBox.Show("Будь ласка, виберіть поле для фільтрації", "Попередження",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string query;
-            if (field == "student_id")
-            {
-                if (!string.IsNullOrEmpty(minValue) && !string.IsNullOrEmpty(maxValue))
-                {
-                    query = $"SELECT * FROM students WHERE {field} BETWEEN {minValue} AND {maxValue}";
-                }
-                else if (!string.IsNullOrEmpty(minValue))
-                {
-                    query = $"SELECT * FROM students WHERE {field} >= {minValue}";
-                }
-                else if (!string.IsNullOrEmpty(maxValue))
-                {
-                    query = $"SELECT * FROM students WHERE {field} <= {maxValue}";
-                }
-                else
-                {
-                    MessageBox.Show("Будь ласка, введіть мінімальне або максимальне значення", "Попередження",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(minValue))
-                {
-                    query = $"SELECT * FROM students WHERE {field} LIKE '%{minValue}%'";
-                }
-                else
-                {
-                    MessageBox.Show("Будь ласка, введіть значення для пошуку", "Попередження",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            ExecuteQueryAndDisplay(query);
-        }
-
-        // Агрегатні функції
-        private void btnAggregate_Click(object sender, EventArgs e)
-        {
-            string field = cmbAggregateField.Text;
-            string function = cmbAggregateFunction.Text;
-
-            if (!string.IsNullOrEmpty(field) && !string.IsNullOrEmpty(function))
-            {
-                string query = $"SELECT {function}({field}) as Result FROM students";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    try
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(query, connection);
-                        object result = command.ExecuteScalar();
-
-                        string functionName;
-                        if (function == "COUNT")
-                        {
-                            functionName = "Кількість";
-                        }
-                        else if (function == "MAX")
-                        {
-                            functionName = "Максимальне значення";
-                        }
-                        else if (function == "MIN")
-                        {
-                            functionName = "Мінімальне значення";
-                        }
-                        else
-                        {
-                            functionName = function;
-                        }
-
-                        MessageBox.Show($"{functionName}: {result}", "Результат агрегатної функції",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Помилка: " + ex.Message, "Помилка",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Будь ласка, виберіть поле та агрегатну функцію", "Попередження",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
 
         // Пошук
         private void btnSearch_Click(object sender, EventArgs e)
@@ -271,8 +162,6 @@ namespace SchoolClubsApp
         // Скидання фільтрів
         private void btnReset_Click(object sender, EventArgs e)
         {
-            txtMinValue.Text = "";
-            txtMaxValue.Text = "";
             txtConditionValue.Text = "";
             cmbClassFilter.SelectedIndex = 0;
 
@@ -301,14 +190,9 @@ namespace SchoolClubsApp
 
         private void ShowStudentSchedule(int studentId, string studentName)
         {
-            string query = $@"
-                SELECT c.club_name, c.description, c.schedule, t.last_name + ' ' + t.first_name as teacher_name
-                FROM clubs c 
-                INNER JOIN student_clubs sc ON c.club_id = sc.club_id 
-                INNER JOIN teachers t ON c.teacher_id = t.teacher_id
-                WHERE sc.student_id = {studentId}
-                ORDER BY c.schedule";
-
+            string query = $@" 
+                SELECT * FROM enrollments e INNER JOIN clubs c ON e.club_id = c.club_id INNER JOIN schedules sc ON c.club_id = sc.club_id  
+                WHERE e.student_id = {studentId}";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -317,27 +201,10 @@ namespace SchoolClubsApp
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     DataTable scheduleTable = new DataTable();
                     adapter.Fill(scheduleTable);
+                    dataGridView1.AutoGenerateColumns = true;
+                    dataGridView1.DataSource = scheduleTable;
 
-                    string message = $"Учень: {studentName}\n\n";
 
-                    if (scheduleTable.Rows.Count > 0)
-                    {
-                        message += "Повний розклад занять:\n\n";
-                        foreach (DataRow row in scheduleTable.Rows)
-                        {
-                            message += $"• {row["club_name"]}\n";
-                            message += $"  Викладач: {row["teacher_name"]}\n";
-                            message += $"  Опис: {row["description"]}\n";
-                            message += $"  Розклад: {row["schedule"]}\n\n";
-                        }
-                    }
-                    else
-                    {
-                        message += "Учень не записаний до жодного гуртка.";
-                    }
-
-                    MessageBox.Show(message, "Розклад учня",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -353,22 +220,13 @@ namespace SchoolClubsApp
             string selectedClass = cmbClassFilter.Text;
             string query;
 
-            if (selectedClass == "Всі класи")
-            {
-                query = @"
-                    SELECT s.* 
-                    FROM students s 
-                    LEFT JOIN student_clubs sc ON s.student_id = sc.student_id 
-                    WHERE sc.student_id IS NULL";
-            }
-            else
-            {
+           
                 query = $@"
                     SELECT s.* 
                     FROM students s 
-                    LEFT JOIN student_clubs sc ON s.student_id = sc.student_id 
+                    LEFT JOIN clubs sc ON s.student_id = sc.student_id 
                     WHERE sc.student_id IS NULL AND s.class = '{selectedClass}'";
-            }
+            
 
             ExecuteQueryAndDisplay(query);
             toolStripStatusLabel1.Text = $"Учні {selectedClass} без гуртків";
@@ -381,7 +239,7 @@ namespace SchoolClubsApp
                 SELECT COUNT(*) as student_count
                 FROM (
                     SELECT student_id 
-                    FROM student_clubs 
+                    FROM enrollments
                     GROUP BY student_id 
                     HAVING COUNT(*) > 1
                 ) as multiple_clubs";
@@ -422,7 +280,6 @@ namespace SchoolClubsApp
 
             toolStripStatusLabel1.Text = $"Клас: {selectedClass}";
         }
-
         // Пошук в панелі інструментів
         private void btnToolStripSearch_Click(object sender, EventArgs e)
         {
@@ -452,6 +309,16 @@ namespace SchoolClubsApp
             txtToolStripSearch.Text = "";
             studentsBindingSource.RemoveFilter();
             toolStripStatusLabel1.Text = "Пошук скинуто";
+        }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

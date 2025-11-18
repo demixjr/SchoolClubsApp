@@ -649,6 +649,11 @@ namespace SchoolClubsApp
                 }
             }
         }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     // Допоміжна форма для вибору учня

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.XPath;
@@ -337,44 +338,6 @@ namespace SchoolClubsApp
             toolStripStatusLabel1.Text = "Фільтри скинуто";
         }
 
-        // Експорт даних
-        private void btnExport_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "CSV файл (*.csv)|*.csv";
-                saveFileDialog.Title = "Експорт даних записів";
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    StringBuilder csv = new StringBuilder();
-
-                    csv.AppendLine("ID,ID учня,ID гуртка,Дата запису,Статус");
-
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
-                    {
-                        if (!row.IsNewRow)
-                        {
-                            csv.AppendLine($"{row.Cells[0].Value}," +
-                                         $"{row.Cells[1].Value}," +
-                                         $"{row.Cells[2].Value}," +
-                                         $"{row.Cells[3].Value}," +
-                                         $"{row.Cells[4].Value}");
-                        }
-                    }
-
-                    System.IO.File.WriteAllText(saveFileDialog.FileName, csv.ToString(), Encoding.UTF8);
-                    MessageBox.Show("Дані успішно експортовано", "Успіх",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка при експорті: " + ex.Message, "Помилка",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         // Статистика активних записів
         private void btnActiveEnrollments_Click(object sender, EventArgs e)
@@ -424,59 +387,6 @@ namespace SchoolClubsApp
                     MessageBox.Show("Помилка при отриманні статистики: " + ex.Message, "Помилка",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-        }
-
-        // Масове оновлення статусу
-        private void btnUpdateStatus_Click(object sender, EventArgs e)
-        {
-            using (StatusUpdateForm statusForm = new StatusUpdateForm())
-            {
-                if (statusForm.ShowDialog() == DialogResult.OK)
-                {
-                    string newStatus = statusForm.SelectedStatus;
-                    UpdateEnrollmentsStatus(newStatus);
-                }
-            }
-        }
-
-        private void UpdateEnrollmentsStatus(string newStatus)
-        {
-            if (dataGridView1.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Будь ласка, виберіть записи для оновлення статусу", "Інформація",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    foreach (DataGridViewRow row in dataGridView1.SelectedRows)
-                    {
-                        if (!row.IsNewRow)
-                        {
-                            int enrollmentId = Convert.ToInt32(row.Cells["enrollment_id"].Value);
-                            string query = $"UPDATE enrollments SET status = '{newStatus}' WHERE enrollment_id = {enrollmentId}";
-
-                            SqlCommand command = new SqlCommand(query, connection);
-                            command.ExecuteNonQuery();
-                        }
-                    }
-
-                    // Оновлюємо дані
-                    this.enrollmentsTableAdapter.Fill(this.schoolClubsDBDataSet.enrollments);
-                    MessageBox.Show("Статус записів успішно оновлено", "Успіх",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка при оновленні статусу: " + ex.Message, "Помилка",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -649,6 +559,189 @@ namespace SchoolClubsApp
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Просте діалогове вікно вибору типу звіту
+            using (var choiceForm = new Form())
+            {
+                choiceForm.Text = "Оберіть тип звіту";
+                choiceForm.Size = new Size(300, 200);
+                choiceForm.StartPosition = FormStartPosition.CenterParent;
+                choiceForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                var lblTitle = new Label()
+                {
+                    Text = "Який звіт показати?",
+                    Location = new Point(20, 20),
+                    AutoSize = true
+                };
+
+                var btnByClass = new Button()
+                {
+                    Text = "За класами",
+                    Location = new Point(20, 60),
+                    Size = new Size(100, 30)
+                };
+
+                var btnByClub = new Button()
+                {
+                    Text = "За гуртками",
+                    Location = new Point(140, 60),
+                    Size = new Size(100, 30)
+                };
+
+                var btnSchoolTotal = new Button()
+                {
+                    Text = "По школі",
+                    Location = new Point(80, 100),
+                    Size = new Size(100, 30)
+                };
+
+                var btnCancel = new Button()
+                {
+                    Text = "Скасувати",
+                    Location = new Point(100, 140),
+                    Size = new Size(100, 30),
+                    DialogResult = DialogResult.Cancel
+                };
+
+                btnByClass.Click += (s, ev) => { choiceForm.DialogResult = DialogResult.Yes; ShowSimpleReport("by_class"); };
+                btnByClub.Click += (s, ev) => { choiceForm.DialogResult = DialogResult.Yes; ShowSimpleReport("by_club"); };
+                btnSchoolTotal.Click += (s, ev) => { choiceForm.DialogResult = DialogResult.Yes; ShowSimpleReport("school_total"); };
+
+                choiceForm.Controls.AddRange(new Control[] { lblTitle, btnByClass, btnByClub, btnSchoolTotal, btnCancel });
+                choiceForm.ShowDialog();
+            }
+        }
+
+        // Показати простий звіт
+        private void ShowSimpleReport(string reportType)
+        {
+            DataTable reportData = GenerateCoverageReport(reportType);
+
+            if (reportData.Rows.Count == 0)
+            {
+                MessageBox.Show("Немає даних для відображення", "Інформація");
+                return;
+            }
+
+            // Створюємо просте вікно звіту
+            using (var reportForm = new Form())
+            {
+                reportForm.Text = GetReportTitle(reportType);
+                reportForm.Size = new Size(700, 400);
+                reportForm.StartPosition = FormStartPosition.CenterParent;
+
+                var dataGridView = new DataGridView()
+                {
+                    Dock = DockStyle.Fill,
+                    ReadOnly = true,
+                    AllowUserToAddRows = false,
+                    DataSource = reportData
+                };
+
+                var btnClose = new Button()
+                {
+                    Text = "Закрити",
+                    Size = new Size(80, 30),
+                    Location = new Point(300, 320)
+                };
+                btnClose.Click += (s, ev) => reportForm.Close();
+
+                reportForm.Controls.Add(dataGridView);
+                reportForm.Controls.Add(btnClose);
+                reportForm.ShowDialog();
+            }
+        }
+
+        // Метод для генерації звіту 
+        private DataTable GenerateCoverageReport(string reportType)
+        {
+            string query = "";
+
+            switch (reportType)
+            {
+                case "by_class":
+                    query = @"
+                SELECT 
+                    s.class AS Клас,
+                    COUNT(DISTINCT s.student_id) AS [Всього учнів],
+                    COUNT(DISTINCT CASE WHEN e.status = 'активний' THEN s.student_id END) AS [Охоплено гуртками],
+                    CASE 
+                        WHEN COUNT(DISTINCT s.student_id) > 0 
+                        THEN FORMAT(COUNT(DISTINCT CASE WHEN e.status = 'активний' THEN s.student_id END) * 100.0 / COUNT(DISTINCT s.student_id), 'N2') + '%'
+                        ELSE '0%'
+                    END AS [Відсоток охоплення]
+                FROM students s
+                LEFT JOIN enrollments e ON s.student_id = e.student_id AND e.status = 'активний'
+                GROUP BY s.class
+                ORDER BY s.class";
+                    break;
+
+                case "by_club":
+                    query = @"
+                SELECT 
+                    c.club_name AS [Назва гуртка],
+                    t.last_name + ' ' + t.first_name AS [Викладач],
+                    COUNT(DISTINCT e.student_id) AS [Кількість учнів],
+                    c.max_students AS [Максимальна кількість],
+                    CASE 
+                        WHEN c.max_students > 0 
+                        THEN FORMAT(COUNT(DISTINCT e.student_id) * 100.0 / c.max_students, 'N2') + '%'
+                        ELSE '0%'
+                    END AS [Заповненість]
+                FROM clubs c
+                LEFT JOIN enrollments e ON c.club_id = e.club_id AND e.status = 'активний'
+                LEFT JOIN teachers t ON c.teacher_id = t.teacher_id
+                GROUP BY c.club_id, c.club_name, t.last_name, t.first_name, c.max_students
+                ORDER BY [Кількість учнів] DESC";
+                    break;
+
+                case "school_total":
+                    query = @"
+                SELECT 
+                    COUNT(DISTINCT s.student_id) AS [Всього учнів],
+                    COUNT(DISTINCT CASE WHEN e.status = 'активний' THEN s.student_id END) AS [Охоплено гуртками],
+                    CASE 
+                        WHEN COUNT(DISTINCT s.student_id) > 0 
+                        THEN FORMAT(COUNT(DISTINCT CASE WHEN e.status = 'активний' THEN s.student_id END) * 100.0 / COUNT(DISTINCT s.student_id), 'N2') + '%'
+                        ELSE '0%'
+                    END AS [Відсоток охоплення],
+                    COUNT(DISTINCT c.club_id) AS [Кількість гуртків]
+                FROM students s
+                LEFT JOIN enrollments e ON s.student_id = e.student_id AND e.status = 'активний'
+                LEFT JOIN clubs c ON e.club_id = c.club_id";
+                    break;
+            }
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                DataTable reportTable = new DataTable();
+                adapter.Fill(reportTable);
+                return reportTable;
+            }
+        }
+
+        // Отримати заголовок звіту
+        private string GetReportTitle(string reportType)
+        {
+            if (reportType == "by_class")
+                return "Охоплення за класами";
+            else if (reportType == "by_club")
+                return "Охоплення за гуртками";
+            else if (reportType == "school_total")
+                return "Загальне охоплення по школі";
+            else
+                return "Звіт";
         }
     }
 

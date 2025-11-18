@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.XPath;
@@ -330,6 +331,73 @@ namespace SchoolClubsApp
             txtToolStripSearch.Text = "";
             teachersBindingSource.RemoveFilter();
             toolStripStatusLabel1.Text = "Пошук скинуто";
+        }
+
+        // Звіт про завантаженість викладачів
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string query = @"
+        SELECT 
+            t.last_name + ' ' + t.first_name AS Викладач,
+            COUNT(c.club_id) AS [Кількість гуртків]
+        FROM teachers t
+        LEFT JOIN clubs c ON t.teacher_id = c.teacher_id
+        GROUP BY t.teacher_id, t.last_name, t.first_name
+        ORDER BY [Кількість гуртків] DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
+
+                    if (table.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Немає даних для відображення", "Інформація");
+                        return;
+                    }
+
+                    // Просте вікно з результатами
+                    using (var reportForm = new Form())
+                    {
+                        reportForm.Text = "Кількість гуртків по викладачах";
+                        reportForm.Size = new Size(400, 300);
+                        reportForm.StartPosition = FormStartPosition.CenterParent;
+
+                        var dataGridView = new DataGridView()
+                        {
+                            Dock = DockStyle.Fill,
+                            ReadOnly = true,
+                            AllowUserToAddRows = false,
+                            DataSource = table
+                        };
+
+                        var btnClose = new Button()
+                        {
+                            Text = "Закрити",
+                            Size = new Size(80, 30),
+                            Location = new Point(160, 230)
+                        };
+                        btnClose.Click += (s, ev) => reportForm.Close();
+
+                        reportForm.Controls.Add(dataGridView);
+                        reportForm.Controls.Add(btnClose);
+                        reportForm.ShowDialog();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка: " + ex.Message, "Помилка");
+                }
+            }
+        }
+
+        private void cmbAggregateFunction_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
