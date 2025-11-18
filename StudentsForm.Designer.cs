@@ -358,6 +358,7 @@
             this.comboBoxClassFilter.Name = "comboBoxClassFilter";
             this.comboBoxClassFilter.Size = new System.Drawing.Size(150, 24);
             this.comboBoxClassFilter.TabIndex = 0;
+            this.comboBoxClassFilter.SelectedIndexChanged += new System.EventHandler(this.comboBoxClassFilter_SelectedIndexChanged);
             // 
             // btnFilterByClass
             // 
