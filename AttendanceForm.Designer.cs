@@ -46,7 +46,6 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.txtToolStripSearch = new System.Windows.Forms.ToolStripTextBox();
             this.btnToolStripSearch = new System.Windows.Forms.ToolStripButton();
             this.btnToolStripClearSearch = new System.Windows.Forms.ToolStripButton();
@@ -58,15 +57,11 @@
             this.statusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.attendanceTableAdapter = new SchoolClubsApp.SchoolClubsDBDataSetTableAdapters.attendanceTableAdapter();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnDetailedStats = new System.Windows.Forms.Button();
-            this.btnUpdateStatus = new System.Windows.Forms.Button();
             this.btnClubAttendance = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cmbMonthFilter = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.cmbClubFilter = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.cmbStatusFilter = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -98,6 +93,7 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.attendanceBindingSource)).BeginInit();
@@ -135,7 +131,6 @@
             this.bindingNavigatorDeleteItem,
             this.toolStripButton1,
             this.toolStripSeparator1,
-            this.toolStripLabel1,
             this.txtToolStripSearch,
             this.btnToolStripSearch,
             this.btnToolStripClearSearch});
@@ -261,12 +256,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(58, 24);
-            this.toolStripLabel1.Text = "Пошук:";
-            // 
             // txtToolStripSearch
             // 
             this.txtToolStripSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -350,6 +339,7 @@
             this.statusDataGridViewTextBoxColumn.HeaderText = "Статус";
             this.statusDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.statusDataGridViewTextBoxColumn.Name = "statusDataGridViewTextBoxColumn";
+            this.statusDataGridViewTextBoxColumn.Width = 125;
             // 
             // attendanceTableAdapter
             // 
@@ -357,42 +347,22 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnDetailedStats);
-            this.panel2.Controls.Add(this.btnUpdateStatus);
+            this.panel2.Controls.Add(this.textBox1);
             this.panel2.Controls.Add(this.btnClubAttendance);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 666);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1200, 50);
             this.panel2.TabIndex = 2;
-            // 
-            // btnDetailedStats
-            // 
-            this.btnDetailedStats.Location = new System.Drawing.Point(240, 10);
-            this.btnDetailedStats.Name = "btnDetailedStats";
-            this.btnDetailedStats.Size = new System.Drawing.Size(180, 30);
-            this.btnDetailedStats.TabIndex = 3;
-            this.btnDetailedStats.Text = "Детальна статистика";
-            this.btnDetailedStats.UseVisualStyleBackColor = true;
-            this.btnDetailedStats.Click += new System.EventHandler(this.btnDetailedStats_Click);
-            // 
-            // btnUpdateStatus
-            // 
-            this.btnUpdateStatus.Location = new System.Drawing.Point(430, 10);
-            this.btnUpdateStatus.Name = "btnUpdateStatus";
-            this.btnUpdateStatus.Size = new System.Drawing.Size(180, 30);
-            this.btnUpdateStatus.TabIndex = 2;
-            this.btnUpdateStatus.Text = "Оновити статус";
-            this.btnUpdateStatus.UseVisualStyleBackColor = true;
-            this.btnUpdateStatus.Click += new System.EventHandler(this.btnUpdateStatus_Click);
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // btnClubAttendance
             // 
-            this.btnClubAttendance.Location = new System.Drawing.Point(20, 10);
+            this.btnClubAttendance.Location = new System.Drawing.Point(733, 17);
             this.btnClubAttendance.Name = "btnClubAttendance";
             this.btnClubAttendance.Size = new System.Drawing.Size(200, 30);
             this.btnClubAttendance.TabIndex = 0;
-            this.btnClubAttendance.Text = "Статистика гуртка";
+            this.btnClubAttendance.Text = "Статистика гуртка (id)";
             this.btnClubAttendance.UseVisualStyleBackColor = true;
             this.btnClubAttendance.Click += new System.EventHandler(this.btnClubAttendance_Click);
             // 
@@ -414,8 +384,6 @@
             // 
             this.groupBox5.Controls.Add(this.cmbMonthFilter);
             this.groupBox5.Controls.Add(this.label12);
-            this.groupBox5.Controls.Add(this.cmbClubFilter);
-            this.groupBox5.Controls.Add(this.label11);
             this.groupBox5.Controls.Add(this.cmbStatusFilter);
             this.groupBox5.Controls.Add(this.label9);
             this.groupBox5.Location = new System.Drawing.Point(12, 460);
@@ -443,25 +411,6 @@
             this.label12.Size = new System.Drawing.Size(55, 16);
             this.label12.TabIndex = 6;
             this.label12.Text = "Період:";
-            // 
-            // cmbClubFilter
-            // 
-            this.cmbClubFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbClubFilter.FormattingEnabled = true;
-            this.cmbClubFilter.Location = new System.Drawing.Point(90, 55);
-            this.cmbClubFilter.Name = "cmbClubFilter";
-            this.cmbClubFilter.Size = new System.Drawing.Size(170, 24);
-            this.cmbClubFilter.TabIndex = 5;
-            this.cmbClubFilter.SelectedIndexChanged += new System.EventHandler(this.cmbClubFilter_SelectedIndexChanged);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(10, 58);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(55, 16);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "Гурток:";
             // 
             // cmbStatusFilter
             // 
@@ -558,7 +507,7 @@
             // 
             this.cmbAggregateFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAggregateFunction.FormattingEnabled = true;
-            this.cmbAggregateFunction.Location = new System.Drawing.Point(90, 55);
+            this.cmbAggregateFunction.Location = new System.Drawing.Point(90, 39);
             this.cmbAggregateFunction.Name = "cmbAggregateFunction";
             this.cmbAggregateFunction.Size = new System.Drawing.Size(170, 24);
             this.cmbAggregateFunction.TabIndex = 4;
@@ -576,7 +525,7 @@
             // 
             this.cmbAggregateField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAggregateField.FormattingEnabled = true;
-            this.cmbAggregateField.Location = new System.Drawing.Point(90, 25);
+            this.cmbAggregateField.Location = new System.Drawing.Point(90, 12);
             this.cmbAggregateField.Name = "cmbAggregateField";
             this.cmbAggregateField.Size = new System.Drawing.Size(170, 24);
             this.cmbAggregateField.TabIndex = 2;
@@ -592,7 +541,7 @@
             // 
             // btnAggregate
             // 
-            this.btnAggregate.Location = new System.Drawing.Point(90, 55);
+            this.btnAggregate.Location = new System.Drawing.Point(90, 69);
             this.btnAggregate.Name = "btnAggregate";
             this.btnAggregate.Size = new System.Drawing.Size(170, 25);
             this.btnAggregate.TabIndex = 0;
@@ -694,7 +643,7 @@
             // 
             this.cmbSortOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSortOrder.FormattingEnabled = true;
-            this.cmbSortOrder.Location = new System.Drawing.Point(90, 55);
+            this.cmbSortOrder.Location = new System.Drawing.Point(90, 30);
             this.cmbSortOrder.Name = "cmbSortOrder";
             this.cmbSortOrder.Size = new System.Drawing.Size(170, 24);
             this.cmbSortOrder.TabIndex = 4;
@@ -712,7 +661,7 @@
             // 
             this.cmbSortField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSortField.FormattingEnabled = true;
-            this.cmbSortField.Location = new System.Drawing.Point(90, 25);
+            this.cmbSortField.Location = new System.Drawing.Point(90, 0);
             this.cmbSortField.Name = "cmbSortField";
             this.cmbSortField.Size = new System.Drawing.Size(170, 24);
             this.cmbSortField.TabIndex = 2;
@@ -728,7 +677,7 @@
             // 
             // btnSort
             // 
-            this.btnSort.Location = new System.Drawing.Point(90, 55);
+            this.btnSort.Location = new System.Drawing.Point(90, 58);
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(170, 25);
             this.btnSort.TabIndex = 0;
@@ -765,6 +714,13 @@
             this.toolStripStatusLabel1.Text = "Готово";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(959, 21);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(43, 22);
+            this.textBox1.TabIndex = 1;
+            // 
             // AttendanceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -786,6 +742,7 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
@@ -828,7 +785,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn lessondateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox txtToolStripSearch;
         private System.Windows.Forms.ToolStripButton btnToolStripSearch;
         private System.Windows.Forms.ToolStripButton btnToolStripClearSearch;
@@ -868,11 +824,8 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.ComboBox cmbStatusFilter;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cmbClubFilter;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnUpdateStatus;
-        private System.Windows.Forms.Button btnDetailedStats;
         private System.Windows.Forms.ComboBox cmbMonthFilter;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

@@ -52,8 +52,16 @@
             this.btnToolStripClearSearch = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.teacher_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.patronymic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.specializationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.teachersTableAdapter = new SchoolClubsApp.SchoolClubsDBDataSetTableAdapters.teachersTableAdapter();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnShowClubs = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -65,9 +73,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cmbAggregateFunction = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnAggregate = new System.Windows.Forms.Button();
             this.cmbAggregateField = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnAggregate = new System.Windows.Forms.Button();
+            this.btnSort = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtMaxValue = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -75,24 +84,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFilterField = new System.Windows.Forms.ComboBox();
             this.lblFilterField = new System.Windows.Forms.Label();
-            this.btnFilter = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cmbSortOrder = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbSortField = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnSort = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
+            this.btnFilter = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.last_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.teacher_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.first_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.patronymic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.specializationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.teachersBindingSource)).BeginInit();
@@ -316,6 +316,63 @@
             this.dataGridView1.Size = new System.Drawing.Size(900, 467);
             this.dataGridView1.TabIndex = 0;
             // 
+            // last_name
+            // 
+            this.last_name.DataPropertyName = "last_name";
+            this.last_name.HeaderText = "Прізвище";
+            this.last_name.MinimumWidth = 6;
+            this.last_name.Name = "last_name";
+            this.last_name.Width = 125;
+            // 
+            // teacher_id
+            // 
+            this.teacher_id.DataPropertyName = "teacher_id";
+            this.teacher_id.HeaderText = "ID";
+            this.teacher_id.MinimumWidth = 6;
+            this.teacher_id.Name = "teacher_id";
+            this.teacher_id.ReadOnly = true;
+            this.teacher_id.Width = 50;
+            // 
+            // first_name
+            // 
+            this.first_name.DataPropertyName = "first_name";
+            this.first_name.HeaderText = "Ім\'я";
+            this.first_name.MinimumWidth = 6;
+            this.first_name.Name = "first_name";
+            this.first_name.Width = 125;
+            // 
+            // patronymic
+            // 
+            this.patronymic.DataPropertyName = "patronymic";
+            this.patronymic.HeaderText = "По-батькові";
+            this.patronymic.MinimumWidth = 6;
+            this.patronymic.Name = "patronymic";
+            this.patronymic.Width = 125;
+            // 
+            // phoneDataGridViewTextBoxColumn
+            // 
+            this.phoneDataGridViewTextBoxColumn.DataPropertyName = "phone";
+            this.phoneDataGridViewTextBoxColumn.HeaderText = "Телефон";
+            this.phoneDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
+            this.phoneDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // emailDataGridViewTextBoxColumn
+            // 
+            this.emailDataGridViewTextBoxColumn.DataPropertyName = "email";
+            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            this.emailDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // specializationDataGridViewTextBoxColumn
+            // 
+            this.specializationDataGridViewTextBoxColumn.DataPropertyName = "specialization";
+            this.specializationDataGridViewTextBoxColumn.HeaderText = "Спеціалізація";
+            this.specializationDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.specializationDataGridViewTextBoxColumn.Name = "specializationDataGridViewTextBoxColumn";
+            this.specializationDataGridViewTextBoxColumn.Width = 200;
+            // 
             // teachersTableAdapter
             // 
             this.teachersTableAdapter.ClearBeforeFill = true;
@@ -329,6 +386,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1200, 50);
             this.panel2.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(941, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(187, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Звітність";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnShowClubs
             // 
@@ -375,6 +442,7 @@
             this.txtConditionValue.Name = "txtConditionValue";
             this.txtConditionValue.Size = new System.Drawing.Size(170, 22);
             this.txtConditionValue.TabIndex = 4;
+            this.txtConditionValue.TextChanged += new System.EventHandler(this.txtConditionValue_TextChanged);
             // 
             // label5
             // 
@@ -446,6 +514,16 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Функція:";
             // 
+            // btnAggregate
+            // 
+            this.btnAggregate.Location = new System.Drawing.Point(90, 85);
+            this.btnAggregate.Name = "btnAggregate";
+            this.btnAggregate.Size = new System.Drawing.Size(170, 34);
+            this.btnAggregate.TabIndex = 0;
+            this.btnAggregate.Text = "Обчислити";
+            this.btnAggregate.UseVisualStyleBackColor = true;
+            this.btnAggregate.Click += new System.EventHandler(this.btnAggregate_Click);
+            // 
             // cmbAggregateField
             // 
             this.cmbAggregateField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -464,15 +542,15 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "Поле:";
             // 
-            // btnAggregate
+            // btnSort
             // 
-            this.btnAggregate.Location = new System.Drawing.Point(90, 85);
-            this.btnAggregate.Name = "btnAggregate";
-            this.btnAggregate.Size = new System.Drawing.Size(170, 34);
-            this.btnAggregate.TabIndex = 0;
-            this.btnAggregate.Text = "Обчислити";
-            this.btnAggregate.UseVisualStyleBackColor = true;
-            this.btnAggregate.Click += new System.EventHandler(this.btnAggregate_Click);
+            this.btnSort.Location = new System.Drawing.Point(102, 105);
+            this.btnSort.Name = "btnSort";
+            this.btnSort.Size = new System.Drawing.Size(170, 25);
+            this.btnSort.TabIndex = 0;
+            this.btnSort.Text = "Сортувати";
+            this.btnSort.UseVisualStyleBackColor = true;
+            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
             // 
             // groupBox1
             // 
@@ -539,16 +617,6 @@
             this.lblFilterField.TabIndex = 1;
             this.lblFilterField.Text = "Поле:";
             // 
-            // btnFilter
-            // 
-            this.btnFilter.Location = new System.Drawing.Point(102, 203);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(170, 25);
-            this.btnFilter.TabIndex = 0;
-            this.btnFilter.Text = "Фільтрувати";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cmbSortOrder);
@@ -598,16 +666,6 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "Поле:";
             // 
-            // btnSort
-            // 
-            this.btnSort.Location = new System.Drawing.Point(102, 105);
-            this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(170, 25);
-            this.btnSort.TabIndex = 0;
-            this.btnSort.Text = "Сортувати";
-            this.btnSort.UseVisualStyleBackColor = true;
-            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
-            // 
             // btnReset
             // 
             this.btnReset.Location = new System.Drawing.Point(12, 470);
@@ -617,6 +675,16 @@
             this.btnReset.Text = "Скинути фільтри";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(102, 203);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(170, 25);
+            this.btnFilter.TabIndex = 0;
+            this.btnFilter.Text = "Фільтрувати";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // statusStrip1
             // 
@@ -636,73 +704,6 @@
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "Готово";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(941, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(187, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Звітність";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // last_name
-            // 
-            this.last_name.DataPropertyName = "last_name";
-            this.last_name.HeaderText = "Прізвище";
-            this.last_name.MinimumWidth = 6;
-            this.last_name.Name = "last_name";
-            this.last_name.Width = 125;
-            // 
-            // teacher_id
-            // 
-            this.teacher_id.DataPropertyName = "teacher_id";
-            this.teacher_id.HeaderText = "ID";
-            this.teacher_id.MinimumWidth = 6;
-            this.teacher_id.Name = "teacher_id";
-            this.teacher_id.ReadOnly = true;
-            this.teacher_id.Width = 50;
-            // 
-            // first_name
-            // 
-            this.first_name.DataPropertyName = "first_name";
-            this.first_name.HeaderText = "Ім\'я";
-            this.first_name.MinimumWidth = 6;
-            this.first_name.Name = "first_name";
-            this.first_name.Width = 125;
-            // 
-            // patronymic
-            // 
-            this.patronymic.DataPropertyName = "patronymic";
-            this.patronymic.HeaderText = "По-батькові";
-            this.patronymic.MinimumWidth = 6;
-            this.patronymic.Name = "patronymic";
-            this.patronymic.Width = 125;
-            // 
-            // phoneDataGridViewTextBoxColumn
-            // 
-            this.phoneDataGridViewTextBoxColumn.DataPropertyName = "phone";
-            this.phoneDataGridViewTextBoxColumn.HeaderText = "Телефон";
-            this.phoneDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
-            this.phoneDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // emailDataGridViewTextBoxColumn
-            // 
-            this.emailDataGridViewTextBoxColumn.DataPropertyName = "email";
-            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
-            this.emailDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
-            this.emailDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // specializationDataGridViewTextBoxColumn
-            // 
-            this.specializationDataGridViewTextBoxColumn.DataPropertyName = "specialization";
-            this.specializationDataGridViewTextBoxColumn.HeaderText = "Спеціалізація";
-            this.specializationDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.specializationDataGridViewTextBoxColumn.Name = "specializationDataGridViewTextBoxColumn";
-            this.specializationDataGridViewTextBoxColumn.Width = 200;
             // 
             // TeachersForm
             // 

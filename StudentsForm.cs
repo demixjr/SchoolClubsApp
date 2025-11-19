@@ -214,23 +214,6 @@ namespace SchoolClubsApp
             }
         }
 
-        // Пошук учнів без гуртків
-        private void btnFindWithoutClubs_Click(object sender, EventArgs e)
-        {
-            string selectedClass = cmbClassFilter.Text;
-            string query;
-
-           
-                query = $@"
-                    SELECT s.* 
-                    FROM students s 
-                    LEFT JOIN clubs sc ON s.student_id = sc.student_id 
-                    WHERE sc.student_id IS NULL AND s.class = '{selectedClass}'";
-            
-
-            ExecuteQueryAndDisplay(query);
-            toolStripStatusLabel1.Text = $"Учні {selectedClass} без гуртків";
-        }
 
         // Статистика учнів з більш ніж одним гуртком
         private void btnMultipleClubs_Click(object sender, EventArgs e)

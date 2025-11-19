@@ -63,16 +63,15 @@ namespace SchoolClubsApp
 
             // Заповнення комбобоксів
             cmbSortField.Items.AddRange(new string[] { "enrollment_date", "status", "student_id", "club_id" });
-            cmbFilterField.Items.AddRange(new string[] { "enrollment_id", "student_id", "club_id", "status" });
+            cmbFilterField.Items.AddRange(new string[] { "enrollment_id", "student_id", "club_id" });
             cmbAggregateField.Items.AddRange(new string[] { "enrollment_id" });
-            cmbGroupField.Items.AddRange(new string[] { "status", "student_id", "club_id" });
+            cmbGroupField.Items.AddRange(new string[] { "student_id", "club_id" });
 
             cmbSortOrder.Items.AddRange(new string[] { "ASC", "DESC" });
             cmbAggregateFunction.Items.AddRange(new string[] { "COUNT", "MAX", "MIN" });
 
             // Заповнення комбобоксів для фільтрації
             LoadStatusFilter();
-            LoadStudents();
             LoadClubs();
 
             // Встановлення значень за замовчуванням
@@ -83,7 +82,6 @@ namespace SchoolClubsApp
             cmbAggregateFunction.SelectedIndex = 0;
             cmbGroupField.SelectedIndex = 0;
             cmbStatusFilter.SelectedIndex = 0;
-            cmbStudentFilter.SelectedIndex = 0;
             cmbClubFilter.SelectedIndex = 0;
         }
 
@@ -94,36 +92,6 @@ namespace SchoolClubsApp
             cmbStatusFilter.Items.Add("завершений");
         }
 
-        private void LoadStudents()
-        {
-            string query = "SELECT student_id, last_name + ' ' + first_name as student_name FROM students ORDER BY last_name";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    cmbStudentFilter.Items.Add("Всі учні");
-                    while (reader.Read())
-                    {
-                        cmbStudentFilter.Items.Add(new
-                        {
-                            Text = reader["student_name"].ToString(),
-                            Value = reader["student_id"]
-                        });
-                    }
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка завантаження учнів: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
 
         private void LoadClubs()
         {
@@ -329,7 +297,6 @@ namespace SchoolClubsApp
             txtMaxValue.Text = "";
             txtConditionValue.Text = "";
             cmbStatusFilter.SelectedIndex = 0;
-            cmbStudentFilter.SelectedIndex = 0;
             cmbClubFilter.SelectedIndex = 0;
 
             this.enrollmentsTableAdapter.Fill(this.schoolClubsDBDataSet.enrollments);
@@ -338,57 +305,6 @@ namespace SchoolClubsApp
             toolStripStatusLabel1.Text = "Фільтри скинуто";
         }
 
-
-        // Статистика активних записів
-        private void btnActiveEnrollments_Click(object sender, EventArgs e)
-        {
-            string query = @"
-                SELECT 
-                    c.club_name,
-                    COUNT(e.enrollment_id) as active_enrollments,
-                    c.max_students,
-                    (c.max_students - COUNT(e.enrollment_id)) as free_slots
-                FROM clubs c
-                LEFT JOIN enrollments e ON c.club_id = e.club_id AND e.status = 'активний'
-                GROUP BY c.club_id, c.club_name, c.max_students
-                ORDER BY active_enrollments DESC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable statsTable = new DataTable();
-                    adapter.Fill(statsTable);
-
-                    // Створюємо нову таблицю для відображення
-                    DataTable displayTable = new DataTable();
-                    displayTable.Columns.Add("Гурток", typeof(string));
-                    displayTable.Columns.Add("Активні записи", typeof(int));
-                    displayTable.Columns.Add("Макс. студентів", typeof(int));
-                    displayTable.Columns.Add("Вільні місця", typeof(int));
-
-                    foreach (DataRow row in statsTable.Rows)
-                    {
-                        displayTable.Rows.Add(
-                            row["club_name"],
-                            row["active_enrollments"],
-                            row["max_students"],
-                            row["free_slots"]
-                        );
-                    }
-
-                    dataGridView1.DataSource = displayTable;
-                    toolStripStatusLabel1.Text = "Статистика активних записів по гуртках";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка при отриманні статистики: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
 
         // Фільтрація за статусом
         private void cmbStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -421,18 +337,12 @@ namespace SchoolClubsApp
                 statusFilter = $"status = '{selectedStatus}'";
             }
 
-            // Фільтр за учнем
-            if (cmbStudentFilter.SelectedIndex > 0)
-            {
-                string selectedStudent = cmbStudentFilter.Text;
-                studentFilter = $"student_id IN (SELECT student_id FROM students WHERE last_name + ' ' + first_name LIKE '%{selectedStudent.Split(' ')[0]}%')";
-            }
 
             // Фільтр за гуртком
             if (cmbClubFilter.SelectedIndex > 0)
             {
                 string selectedClub = cmbClubFilter.Text;
-                clubFilter = $"club_id IN (SELECT club_id FROM clubs WHERE club_name LIKE '%{selectedClub.Split(' ')[0]}%')";
+                clubFilter = $"club_id IN (SELECT club_id FROM clubs WHERE club_name = {selectedClub}')";
             }
 
             // Комбінуємо фільтри
@@ -462,104 +372,46 @@ namespace SchoolClubsApp
             }
         }
 
-        // Пошук в панелі інструментів
-        private void btnToolStripSearch_Click(object sender, EventArgs e)
-        {
-            string searchText = txtToolStripSearch.Text.Trim().ToLower();
-
-            if (string.IsNullOrEmpty(searchText))
-            {
-                enrollmentsBindingSource.RemoveFilter();
-                toolStripStatusLabel1.Text = "Пошук скинуто";
-                return;
-            }
-
-            string filter = $"status LIKE '%{searchText}%' OR " +
-                           $"enrollment_date LIKE '%{searchText}%'";
-
-            // Додаємо пошук за іменем учня та назвою гуртка
-            filter += $" OR student_id IN (SELECT student_id FROM students WHERE last_name + ' ' + first_name LIKE '%{searchText}%')";
-            filter += $" OR club_id IN (SELECT club_id FROM clubs WHERE club_name LIKE '%{searchText}%')";
-
-            enrollmentsBindingSource.Filter = filter;
-            toolStripStatusLabel1.Text = $"Знайдено за запитом: '{searchText}'";
-        }
-
-        // Очищення пошуку в панелі інструментів
-        private void btnToolStripClearSearch_Click(object sender, EventArgs e)
-        {
-            txtToolStripSearch.Text = "";
-            enrollmentsBindingSource.RemoveFilter();
-            toolStripStatusLabel1.Text = "Пошук скинуто";
-        }
-
-        // Перегляд записів учня
+        // Пошук записів учнів
         private void btnStudentEnrollments_Click(object sender, EventArgs e)
         {
-            using (StudentSelectionForm studentForm = new StudentSelectionForm())
-            {
-                if (studentForm.ShowDialog() == DialogResult.OK)
-                {
-                    int studentId = studentForm.SelectedStudentId;
-                    string studentName = studentForm.SelectedStudentName;
-                    ShowStudentEnrollments(studentId, studentName);
-                }
-            }
-        }
+            DataGridViewRow selectedRow = dataGridView1.CurrentRow;
+            int studentId = Convert.ToInt32(selectedRow.Cells["student_id"].Value);
+            string query = $@"SELECT * FROM enrollments e 
+    INNER JOIN students s ON e.student_id = s.student_id WHERE e.student_id = {studentId}";
 
-        private void ShowStudentEnrollments(int studentId, string studentName)
-        {
-            string query = $@"
-                SELECT 
-                    e.enrollment_id,
-                    e.enrollment_date,
-                    e.status,
-                    c.club_name,
-                    t.last_name + ' ' + t.first_name as teacher_name
-                FROM enrollments e
-                INNER JOIN clubs c ON e.club_id = c.club_id
-                INNER JOIN teachers t ON c.teacher_id = t.teacher_id
-                WHERE e.student_id = {studentId}
-                ORDER BY e.enrollment_date DESC";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable enrollmentsTable = new DataTable();
-                    adapter.Fill(enrollmentsTable);
 
-                    // Створюємо нову таблицю для відображення
-                    DataTable displayTable = new DataTable();
-                    displayTable.Columns.Add("ID", typeof(int));
-                    displayTable.Columns.Add("Дата запису", typeof(DateTime));
-                    displayTable.Columns.Add("Статус", typeof(string));
-                    displayTable.Columns.Add("Гурток", typeof(string));
-                    displayTable.Columns.Add("Викладач", typeof(string));
-
-                    foreach (DataRow row in enrollmentsTable.Rows)
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        displayTable.Rows.Add(
-                            row["enrollment_id"],
-                            row["enrollment_date"],
-                            row["status"],
-                            row["club_name"],
-                            row["teacher_name"]
-                        );
-                    }
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+                        DataTable dataTable = new DataTable();
 
-                    dataGridView1.DataSource = displayTable;
-                    toolStripStatusLabel1.Text = $"Записи учня: {studentName}";
+                        adapter.Fill(dataTable);
+                        dataGridView1.AutoGenerateColumns = true;
+                        dataGridView1.DataSource = dataTable;
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Помилка при отриманні записів учня: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Помилка виконання запиту: " + ex.Message, "Помилка",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
+
+        // Очищення пошуку в панелі інструментів
+        private void btnToolStripClearSearch_Click(object sender, EventArgs e)
+        {
+            enrollmentsBindingSource.RemoveFilter();
+            toolStripStatusLabel1.Text = "Пошук скинуто";
+        }
+
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
@@ -743,6 +595,8 @@ namespace SchoolClubsApp
             else
                 return "Звіт";
         }
+
+
     }
 
     // Допоміжна форма для оновлення статусу

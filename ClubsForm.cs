@@ -56,7 +56,7 @@ namespace SchoolClubsApp
 
             // Заповнення комбобоксів
             cmbSortField.Items.AddRange(new string[] { "club_name", "age_restrictions", "max_students", "teacher_id" });
-            cmbFilterField.Items.AddRange(new string[] { "club_id", "club_name", "age_restrictions", "teacher_id" });
+            cmbFilterField.Items.AddRange(new string[] { "club_id",  "teacher_id" });
             cmbAggregateField.Items.AddRange(new string[] { "club_id", "max_students" });
             cmbGroupField.Items.AddRange(new string[] { "club_name", "age_restrictions" });
 
@@ -75,7 +75,6 @@ namespace SchoolClubsApp
             cmbAggregateFunction.SelectedIndex = 0;
             cmbGroupField.SelectedIndex = 0;
             cmbAgeFilter.SelectedIndex = 0;
-            cmbTeacherFilter.SelectedIndex = 0;
         }
 
         private void LoadAgeRestrictions()
@@ -115,18 +114,7 @@ namespace SchoolClubsApp
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(query, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    cmbTeacherFilter.Items.Add("Всі викладачі");
-                    while (reader.Read())
-                    {
-                        cmbTeacherFilter.Items.Add(new
-                        {
-                            Text = reader["teacher_name"].ToString(),
-                            Value = reader["teacher_id"]
-                        });
-                    }
-                    reader.Close();
+             
                 }
                 catch (Exception ex)
                 {
@@ -313,7 +301,6 @@ namespace SchoolClubsApp
             txtMaxValue.Text = "";
             txtConditionValue.Text = "";
             cmbAgeFilter.SelectedIndex = 0;
-            cmbTeacherFilter.SelectedIndex = 0;
 
             this.clubsTableAdapter.Fill(this.schoolClubsDBDataSet.clubs);
             dataGridView1.DataSource = clubsBindingSource;
@@ -321,45 +308,6 @@ namespace SchoolClubsApp
             toolStripStatusLabel1.Text = "Фільтри скинуто";
         }
 
-        // Експорт даних
-        private void btnExport_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "CSV файл (*.csv)|*.csv";
-                saveFileDialog.Title = "Експорт даних гуртків";
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    StringBuilder csv = new StringBuilder();
-
-                    csv.AppendLine("ID,Назва,Опис,Вікові обмеження,Макс. студентів,ID викладача");
-
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
-                    {
-                        if (!row.IsNewRow)
-                        {
-                            csv.AppendLine($"{row.Cells[0].Value}," +
-                                         $"{row.Cells[1].Value}," +
-                                         $"{row.Cells[2].Value}," +
-                                         $"{row.Cells[3].Value}," +
-                                         $"{row.Cells[4].Value}," +
-                                         $"{row.Cells[5].Value}");
-                        }
-                    }
-
-                    System.IO.File.WriteAllText(saveFileDialog.FileName, csv.ToString(), Encoding.UTF8);
-                    MessageBox.Show("Дані успішно експортовано", "Успіх",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка при експорті: " + ex.Message, "Помилка",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         // Перегляд вільних місць
         private void btnShowFreeSlots_Click(object sender, EventArgs e)
@@ -383,8 +331,8 @@ namespace SchoolClubsApp
         {
             string query = $@"
                 SELECT COUNT(*) as current_students
-                FROM student_clubs 
-                WHERE club_id = {clubId}";
+                FROM enrollments e 
+                WHERE e.club_id = {clubId}";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -414,17 +362,14 @@ namespace SchoolClubsApp
         // Пошук популярних гуртків
         private void btnPopularClubs_Click(object sender, EventArgs e)
         {
-            string query = @"
-                SELECT c.club_id, c.club_name, c.description, c.age_restrictions, 
-                       c.max_students, c.teacher_id, 
-                       COUNT(sc.student_id) as student_count,
-                       t.last_name + ' ' + t.first_name as teacher_name
-                FROM clubs c
-                LEFT JOIN student_clubs sc ON c.club_id = sc.club_id
-                INNER JOIN teachers t ON c.teacher_id = t.teacher_id
-                GROUP BY c.club_id, c.club_name, c.description, c.age_restrictions, 
-                         c.max_students, c.teacher_id, t.last_name, t.first_name
-                ORDER BY student_count DESC";
+            string query = @"SELECT TOP 5
+    c.club_id,
+    c.club_name,
+    COUNT(e.student_id) AS student_count
+FROM clubs c
+LEFT JOIN enrollments e ON c.club_id = e.club_id AND e.status = 'активний'
+GROUP BY c.club_id, c.club_name
+ORDER BY student_count DESC;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -434,28 +379,8 @@ namespace SchoolClubsApp
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     DataTable popularClubsTable = new DataTable();
                     adapter.Fill(popularClubsTable);
-
-                    // Створюємо нову таблицю для відображення
-                    DataTable displayTable = new DataTable();
-                    displayTable.Columns.Add("ID", typeof(int));
-                    displayTable.Columns.Add("Назва", typeof(string));
-                    displayTable.Columns.Add("Викладач", typeof(string));
-                    displayTable.Columns.Add("Кількість студентів", typeof(int));
-                    displayTable.Columns.Add("Макс. студентів", typeof(int));
-
-                    foreach (DataRow row in popularClubsTable.Rows)
-                    {
-                        displayTable.Rows.Add(
-                            row["club_id"],
-                            row["club_name"],
-                            row["teacher_name"],
-                            row["student_count"],
-                            row["max_students"]
-                        );
-                    }
-
-                    dataGridView1.DataSource = displayTable;
-                    toolStripStatusLabel1.Text = "Популярні гуртки (за кількістю студентів)";
+                    dataGridView1.AutoGenerateColumns = true;
+                    dataGridView1.DataSource = popularClubsTable;
                 }
                 catch (Exception ex)
                 {
@@ -487,15 +412,6 @@ namespace SchoolClubsApp
             {
                 string selectedAge = cmbAgeFilter.Text;
                 ageFilter = $"age_restrictions = '{selectedAge}'";
-            }
-
-            // Фільтр за викладачем
-            if (cmbTeacherFilter.SelectedIndex > 0)
-            {
-                string selectedTeacher = cmbTeacherFilter.Text;
-                // Тут потрібно отримати ID викладача з об'єкта
-                // Для спрощення використовуємо текстовий пошук
-                teacherFilter = $"teacher_id IN (SELECT teacher_id FROM teachers WHERE last_name + ' ' + first_name LIKE '%{selectedTeacher.Split(' ')[0]}%')";
             }
 
             // Комбінуємо фільтри

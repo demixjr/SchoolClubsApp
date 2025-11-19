@@ -386,5 +386,10 @@ namespace SchoolClubsApp
         {
 
         }
+
+        private void txtConditionValue_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

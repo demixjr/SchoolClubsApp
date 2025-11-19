@@ -6,8 +6,68 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>EAA2CIFwiSBEBDsBIQCOdFBSCngABJggAShCARKhDRs=</HashCode>
+      <HashCode>EIA2CIFQjSBABHsBIQCOdFASCPgIBLggAWhCARilCRs=</HashCode>
       <FileName>ClubsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SchoolClubsApp.AttendanceForm">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>YBG6KIFQiSdABRsFIQCGdFISCagABJhgBKLiERGhAAM=</HashCode>
+      <FileName>AttendanceForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SchoolClubsApp.EnrollmentsForm">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>MBA23IFQiSBARJsBKQCG9FASCSgIBJogAOJiERChAAM=</HashCode>
+      <FileName>EnrollmentsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SchoolClubsApp.MainForm">
+    <Position X="9.25" Y="2.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>GSCUTQJgEihEHrEgQACAEARDDvkDCQBAAoKQgRMABGA=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SchoolClubsApp.SchedulesForm">
+    <Position X="12.5" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>MgCyCINQiSBEDhsBYQCHdFAaiSgABZggCOBCARChACM=</HashCode>
+      <FileName>SchedulesForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SchoolClubsApp.StudentsForm">
+    <Position X="14.5" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>giISCIFQiSGAHR8AIQCENFQyCAoEBBggAiBAARCBQAM=</HashCode>
+      <FileName>StudentsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SchoolClubsApp.TeachersForm">
+    <Position X="16.5" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ICA2CIFQuyFEBRsBIQCGNFASCCgIBJggAGRCARChQAM=</HashCode>
+      <FileName>TeachersForm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

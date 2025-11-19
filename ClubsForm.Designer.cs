@@ -52,20 +52,19 @@
             this.btnToolStripClearSearch = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.clubidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clubnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.agerestrictionsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.maxstudentsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.teacheridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.club_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.club_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.age_restrictions = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.max_students = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.teacher_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clubsTableAdapter = new SchoolClubsApp.SchoolClubsDBDataSetTableAdapters.clubsTableAdapter();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnPopularClubs = new System.Windows.Forms.Button();
             this.btnShowFreeSlots = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cmbTeacherFilter = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.cmbAgeFilter = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -87,17 +86,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmbFilterField = new System.Windows.Forms.ComboBox();
             this.lblFilterField = new System.Windows.Forms.Label();
+            this.btnSort = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cmbSortOrder = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbSortField = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnSort = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clubsBindingSource)).BeginInit();
@@ -146,7 +144,7 @@
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(1200, 31);
+            this.bindingNavigator1.Size = new System.Drawing.Size(1200, 27);
             this.bindingNavigator1.TabIndex = 0;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
@@ -156,7 +154,7 @@
             this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
             this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorAddNewItem.Text = "Додати";
             // 
             // clubsBindingSource
@@ -172,7 +170,7 @@
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(55, 28);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(55, 24);
             this.bindingNavigatorCountItem.Text = "для {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Загальна кількість елементів";
             // 
@@ -182,7 +180,7 @@
             this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
             this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
             this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorDeleteItem.Text = "Видалити";
             // 
             // bindingNavigatorMoveFirstItem
@@ -191,7 +189,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMoveFirstItem.Text = "Перемістити на початок";
             // 
             // bindingNavigatorMovePreviousItem
@@ -200,13 +198,13 @@
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMovePreviousItem.Text = "Перемістити назад";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorPositionItem
             // 
@@ -221,7 +219,7 @@
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorMoveNextItem
             // 
@@ -229,7 +227,7 @@
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMoveNextItem.Text = "Перемістити вперед";
             // 
             // bindingNavigatorMoveLastItem
@@ -238,13 +236,13 @@
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMoveLastItem.Text = "Перемістити в кінець";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // toolStripButton1
             // 
@@ -252,26 +250,26 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton1.Text = "Зберегти";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(58, 28);
+            this.toolStripLabel1.Size = new System.Drawing.Size(58, 24);
             this.toolStripLabel1.Text = "Пошук:";
             // 
             // txtToolStripSearch
             // 
             this.txtToolStripSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtToolStripSearch.Name = "txtToolStripSearch";
-            this.txtToolStripSearch.Size = new System.Drawing.Size(150, 31);
+            this.txtToolStripSearch.Size = new System.Drawing.Size(150, 27);
             this.txtToolStripSearch.ToolTipText = "Пошук за назвою, категорією або викладачем";
             // 
             // btnToolStripSearch
@@ -279,7 +277,7 @@
             this.btnToolStripSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnToolStripSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolStripSearch.Name = "btnToolStripSearch";
-            this.btnToolStripSearch.Size = new System.Drawing.Size(29, 28);
+            this.btnToolStripSearch.Size = new System.Drawing.Size(29, 24);
             this.btnToolStripSearch.Text = "Шукати";
             this.btnToolStripSearch.Click += new System.EventHandler(this.btnToolStripSearch_Click);
             // 
@@ -288,7 +286,7 @@
             this.btnToolStripClearSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnToolStripClearSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolStripClearSearch.Name = "btnToolStripClearSearch";
-            this.btnToolStripClearSearch.Size = new System.Drawing.Size(29, 28);
+            this.btnToolStripClearSearch.Size = new System.Drawing.Size(29, 24);
             this.btnToolStripClearSearch.Text = "Очистити пошук";
             this.btnToolStripClearSearch.Click += new System.EventHandler(this.btnToolStripClearSearch_Click);
             // 
@@ -296,9 +294,9 @@
             // 
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(300, 31);
+            this.panel1.Location = new System.Drawing.Point(300, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(900, 606);
+            this.panel1.Size = new System.Drawing.Size(900, 653);
             this.panel1.TabIndex = 1;
             // 
             // dataGridView1
@@ -306,69 +304,69 @@
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.clubidDataGridViewTextBoxColumn,
-            this.clubnameDataGridViewTextBoxColumn,
-            this.descriptionDataGridViewTextBoxColumn,
-            this.agerestrictionsDataGridViewTextBoxColumn,
-            this.maxstudentsDataGridViewTextBoxColumn,
-            this.teacheridDataGridViewTextBoxColumn});
+            this.club_id,
+            this.club_name,
+            this.description,
+            this.age_restrictions,
+            this.max_students,
+            this.teacher_id});
             this.dataGridView1.DataSource = this.clubsBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(900, 606);
+            this.dataGridView1.Size = new System.Drawing.Size(900, 653);
             this.dataGridView1.TabIndex = 0;
             // 
-            // clubidDataGridViewTextBoxColumn
+            // club_id
             // 
-            this.clubidDataGridViewTextBoxColumn.DataPropertyName = "club_id";
-            this.clubidDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.clubidDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.clubidDataGridViewTextBoxColumn.Name = "clubidDataGridViewTextBoxColumn";
-            this.clubidDataGridViewTextBoxColumn.ReadOnly = true;
-            this.clubidDataGridViewTextBoxColumn.Width = 50;
+            this.club_id.DataPropertyName = "club_id";
+            this.club_id.HeaderText = "ID";
+            this.club_id.MinimumWidth = 6;
+            this.club_id.Name = "club_id";
+            this.club_id.ReadOnly = true;
+            this.club_id.Width = 50;
             // 
-            // clubnameDataGridViewTextBoxColumn
+            // club_name
             // 
-            this.clubnameDataGridViewTextBoxColumn.DataPropertyName = "club_name";
-            this.clubnameDataGridViewTextBoxColumn.HeaderText = "Назва";
-            this.clubnameDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.clubnameDataGridViewTextBoxColumn.Name = "clubnameDataGridViewTextBoxColumn";
-            this.clubnameDataGridViewTextBoxColumn.Width = 150;
+            this.club_name.DataPropertyName = "club_name";
+            this.club_name.HeaderText = "Назва";
+            this.club_name.MinimumWidth = 6;
+            this.club_name.Name = "club_name";
+            this.club_name.Width = 150;
             // 
-            // descriptionDataGridViewTextBoxColumn
+            // description
             // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Опис";
-            this.descriptionDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.Width = 200;
+            this.description.DataPropertyName = "description";
+            this.description.HeaderText = "Опис";
+            this.description.MinimumWidth = 6;
+            this.description.Name = "description";
+            this.description.Width = 200;
             // 
-            // agerestrictionsDataGridViewTextBoxColumn
+            // age_restrictions
             // 
-            this.agerestrictionsDataGridViewTextBoxColumn.DataPropertyName = "age_restrictions";
-            this.agerestrictionsDataGridViewTextBoxColumn.HeaderText = "Вікові обмеження";
-            this.agerestrictionsDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.agerestrictionsDataGridViewTextBoxColumn.Name = "agerestrictionsDataGridViewTextBoxColumn";
-            this.agerestrictionsDataGridViewTextBoxColumn.Width = 120;
+            this.age_restrictions.DataPropertyName = "age_restrictions";
+            this.age_restrictions.HeaderText = "Вікові обмеження";
+            this.age_restrictions.MinimumWidth = 6;
+            this.age_restrictions.Name = "age_restrictions";
+            this.age_restrictions.Width = 120;
             // 
-            // maxstudentsDataGridViewTextBoxColumn
+            // max_students
             // 
-            this.maxstudentsDataGridViewTextBoxColumn.DataPropertyName = "max_students";
-            this.maxstudentsDataGridViewTextBoxColumn.HeaderText = "Макс. студентів";
-            this.maxstudentsDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.maxstudentsDataGridViewTextBoxColumn.Name = "maxstudentsDataGridViewTextBoxColumn";
-            this.maxstudentsDataGridViewTextBoxColumn.Width = 80;
+            this.max_students.DataPropertyName = "max_students";
+            this.max_students.HeaderText = "Макс. студентів";
+            this.max_students.MinimumWidth = 6;
+            this.max_students.Name = "max_students";
+            this.max_students.Width = 80;
             // 
-            // teacheridDataGridViewTextBoxColumn
+            // teacher_id
             // 
-            this.teacheridDataGridViewTextBoxColumn.DataPropertyName = "teacher_id";
-            this.teacheridDataGridViewTextBoxColumn.HeaderText = "ID викладача";
-            this.teacheridDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.teacheridDataGridViewTextBoxColumn.Name = "teacheridDataGridViewTextBoxColumn";
-            this.teacheridDataGridViewTextBoxColumn.Width = 80;
+            this.teacher_id.DataPropertyName = "teacher_id";
+            this.teacher_id.HeaderText = "ID викладача";
+            this.teacher_id.MinimumWidth = 6;
+            this.teacher_id.Name = "teacher_id";
+            this.teacher_id.Width = 80;
             // 
             // clubsTableAdapter
             // 
@@ -380,10 +378,20 @@
             this.panel2.Controls.Add(this.btnPopularClubs);
             this.panel2.Controls.Add(this.btnShowFreeSlots);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 637);
+            this.panel2.Location = new System.Drawing.Point(0, 680);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1200, 50);
             this.panel2.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(957, 10);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(191, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Звітність";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnPopularClubs
             // 
@@ -411,46 +419,26 @@
             this.panel3.Controls.Add(this.groupBox3);
             this.panel3.Controls.Add(this.groupBox2);
             this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Controls.Add(this.btnSort);
             this.panel3.Controls.Add(this.groupBox4);
-            this.panel3.Controls.Add(this.btnReset);
             this.panel3.Controls.Add(this.btnFilter);
+            this.panel3.Controls.Add(this.btnReset);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(0, 31);
+            this.panel3.Location = new System.Drawing.Point(0, 27);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(300, 606);
+            this.panel3.Size = new System.Drawing.Size(300, 653);
             this.panel3.TabIndex = 3;
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.cmbTeacherFilter);
-            this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Controls.Add(this.cmbAgeFilter);
             this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Location = new System.Drawing.Point(12, 460);
+            this.groupBox5.Location = new System.Drawing.Point(12, 516);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(276, 90);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Фільтрація";
-            // 
-            // cmbTeacherFilter
-            // 
-            this.cmbTeacherFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTeacherFilter.FormattingEnabled = true;
-            this.cmbTeacherFilter.Location = new System.Drawing.Point(90, 55);
-            this.cmbTeacherFilter.Name = "cmbTeacherFilter";
-            this.cmbTeacherFilter.Size = new System.Drawing.Size(170, 24);
-            this.cmbTeacherFilter.TabIndex = 3;
-            this.cmbTeacherFilter.SelectedIndexChanged += new System.EventHandler(this.cmbTeacherFilter_SelectedIndexChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 58);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(74, 16);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Викладач:";
             // 
             // cmbAgeFilter
             // 
@@ -478,7 +466,7 @@
             this.groupBox3.Controls.Add(this.cmbGroupField);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.btnSearch);
-            this.groupBox3.Location = new System.Drawing.Point(12, 330);
+            this.groupBox3.Location = new System.Drawing.Point(12, 390);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(276, 120);
             this.groupBox3.TabIndex = 4;
@@ -536,9 +524,9 @@
             this.groupBox2.Controls.Add(this.cmbAggregateField);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.btnAggregate);
-            this.groupBox2.Location = new System.Drawing.Point(12, 230);
+            this.groupBox2.Location = new System.Drawing.Point(12, 257);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(276, 90);
+            this.groupBox2.Size = new System.Drawing.Size(276, 127);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Агрегатні функції";
@@ -581,7 +569,7 @@
             // 
             // btnAggregate
             // 
-            this.btnAggregate.Location = new System.Drawing.Point(90, 55);
+            this.btnAggregate.Location = new System.Drawing.Point(90, 85);
             this.btnAggregate.Name = "btnAggregate";
             this.btnAggregate.Size = new System.Drawing.Size(170, 25);
             this.btnAggregate.TabIndex = 0;
@@ -597,9 +585,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cmbFilterField);
             this.groupBox1.Controls.Add(this.lblFilterField);
-            this.groupBox1.Location = new System.Drawing.Point(12, 120);
+            this.groupBox1.Location = new System.Drawing.Point(12, 143);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(276, 100);
+            this.groupBox1.Size = new System.Drawing.Size(276, 77);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Фільтрація";
@@ -654,16 +642,25 @@
             this.lblFilterField.TabIndex = 1;
             this.lblFilterField.Text = "Поле:";
             // 
+            // btnSort
+            // 
+            this.btnSort.Location = new System.Drawing.Point(102, 109);
+            this.btnSort.Name = "btnSort";
+            this.btnSort.Size = new System.Drawing.Size(170, 25);
+            this.btnSort.TabIndex = 0;
+            this.btnSort.Text = "Сортувати";
+            this.btnSort.UseVisualStyleBackColor = true;
+            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cmbSortOrder);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.cmbSortField);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.btnSort);
             this.groupBox4.Location = new System.Drawing.Point(12, 20);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(276, 90);
+            this.groupBox4.Size = new System.Drawing.Size(276, 83);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Сортування";
@@ -704,29 +701,9 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "Поле:";
             // 
-            // btnSort
-            // 
-            this.btnSort.Location = new System.Drawing.Point(90, 55);
-            this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(170, 25);
-            this.btnSort.TabIndex = 0;
-            this.btnSort.Text = "Сортувати";
-            this.btnSort.UseVisualStyleBackColor = true;
-            this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
-            // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(12, 560);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(276, 35);
-            this.btnReset.TabIndex = 0;
-            this.btnReset.Text = "Скинути фільтри";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(102, 203);
+            this.btnFilter.Location = new System.Drawing.Point(102, 226);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(170, 25);
             this.btnFilter.TabIndex = 0;
@@ -734,12 +711,22 @@
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(12, 612);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(276, 35);
+            this.btnReset.TabIndex = 0;
+            this.btnReset.Text = "Скинути фільтри";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 687);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 730);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1200, 26);
             this.statusStrip1.TabIndex = 4;
@@ -753,21 +740,11 @@
             this.toolStripStatusLabel1.Text = "Готово";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(957, 10);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(191, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Звітність";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // ClubsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 713);
+            this.ClientSize = new System.Drawing.Size(1200, 756);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -821,12 +798,6 @@
         private SchoolClubsDBDataSet schoolClubsDBDataSet;
         private System.Windows.Forms.BindingSource clubsBindingSource;
         private SchoolClubsDBDataSetTableAdapters.clubsTableAdapter clubsTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clubidDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clubnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn agerestrictionsDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn maxstudentsDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn teacheridDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox txtToolStripSearch;
@@ -868,9 +839,13 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.ComboBox cmbAgeFilter;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cmbTeacherFilter;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnPopularClubs;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn club_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn club_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn age_restrictions;
+        private System.Windows.Forms.DataGridViewTextBoxColumn max_students;
+        private System.Windows.Forms.DataGridViewTextBoxColumn teacher_id;
     }
 }

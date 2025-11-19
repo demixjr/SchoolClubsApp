@@ -95,7 +95,7 @@ namespace SchoolClubsApp
 
         private void LoadClubs()
         {
-            string query = "SELECT club_id, club_name FROM clubs ORDER BY club_name";
+            string query = "SELECT club_name FROM clubs ORDER BY club_name";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -108,11 +108,7 @@ namespace SchoolClubsApp
                     cmbClubFilter.Items.Add("Всі гуртки");
                     while (reader.Read())
                     {
-                        cmbClubFilter.Items.Add(new
-                        {
-                            Text = reader["club_name"].ToString(),
-                            Value = reader["club_id"]
-                        });
+                        cmbClubFilter.Items.Add(reader["club_name"].ToString());
                     }
                     reader.Close();
                 }
@@ -391,94 +387,6 @@ namespace SchoolClubsApp
             }
         }
 
-        // Перегляд розкладу для учня
-        private void btnShowStudentSchedule_Click(object sender, EventArgs e)
-        {
-            using (StudentSelectionForm studentForm = new StudentSelectionForm())
-            {
-                if (studentForm.ShowDialog() == DialogResult.OK)
-                {
-                    int studentId = studentForm.SelectedStudentId;
-                    string studentName = studentForm.SelectedStudentName;
-                    ShowStudentFullSchedule(studentId, studentName);
-                }
-            }
-        }
-
-        private void ShowStudentFullSchedule(int studentId, string studentName)
-        {
-            string query = $@"
-                SELECT 
-                    s.day_of_week,
-                    s.start_time,
-                    s.end_time,
-                    s.room,
-                    c.club_name,
-                    t.last_name + ' ' + t.first_name as teacher_name
-                FROM schedules s
-                INNER JOIN clubs c ON s.club_id = c.club_id
-                INNER JOIN teachers t ON c.teacher_id = t.teacher_id
-                INNER JOIN student_clubs sc ON c.club_id = sc.club_id
-                WHERE sc.student_id = {studentId}
-                ORDER BY 
-                    CASE s.day_of_week
-                        WHEN 'Понеділок' THEN 1
-                        WHEN 'Вівторок' THEN 2
-                        WHEN 'Середа' THEN 3
-                        WHEN 'Четвер' THEN 4
-                        WHEN 'П''ятниця' THEN 5
-                        WHEN 'Субота' THEN 6
-                    END,
-                    s.start_time";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable scheduleTable = new DataTable();
-                    adapter.Fill(scheduleTable);
-
-                    string message = $"Повний розклад занять для учня: {studentName}\n\n";
-
-                    if (scheduleTable.Rows.Count > 0)
-                    {
-                        string currentDay = "";
-                        foreach (DataRow row in scheduleTable.Rows)
-                        {
-                            string day = row["day_of_week"].ToString();
-                            if (day != currentDay)
-                            {
-                                message += $"\n{day}:\n";
-                                currentDay = day;
-                            }
-
-                            TimeSpan startTime = (TimeSpan)row["start_time"];
-                            TimeSpan endTime = (TimeSpan)row["end_time"];
-
-                            message += $"  {startTime:hh\\:mm} - {endTime:hh\\:mm}";
-                            message += $" | {row["club_name"]}";
-                            message += $" | {row["teacher_name"]}";
-                            message += $" | {row["room"]}\n";
-                        }
-                    }
-                    else
-                    {
-                        message += "Учень не має жодних занять у гуртках.";
-                    }
-
-                    MessageBox.Show(message, "Розклад учня",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка при отриманні розкладу: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
         // Фільтрація за днем тижня
         private void cmbDayFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -511,10 +419,10 @@ namespace SchoolClubsApp
             }
 
             // Фільтр за гуртком
-            if (cmbClubFilter.SelectedIndex > 0)
+            if (cmbClubFilter.SelectedIndex > 0 && !string.IsNullOrEmpty(cmbClubFilter.Text))
             {
                 string selectedClub = cmbClubFilter.Text;
-                clubFilter = $"club_id IN (SELECT club_id FROM clubs WHERE club_name LIKE '%{selectedClub.Split(' ')[0]}%')";
+                clubFilter = $"SELECT club_id FROM clubs WHERE club_name = '{selectedClub}'";
             }
 
             // Фільтр за приміщенням
@@ -583,72 +491,6 @@ namespace SchoolClubsApp
             toolStripStatusLabel1.Text = "Пошук скинуто";
         }
 
-        // Перегляд тижневого розкладу
-        private void btnWeeklySchedule_Click(object sender, EventArgs e)
-        {
-            string query = @"
-                SELECT 
-                    s.day_of_week,
-                    s.start_time,
-                    s.end_time,
-                    s.room,
-                    c.club_name,
-                    t.last_name + ' ' + t.first_name as teacher_name
-                FROM schedules s
-                INNER JOIN clubs c ON s.club_id = c.club_id
-                INNER JOIN teachers t ON c.teacher_id = t.teacher_id
-                ORDER BY 
-                    CASE s.day_of_week
-                        WHEN 'Понеділок' THEN 1
-                        WHEN 'Вівторок' THEN 2
-                        WHEN 'Середа' THEN 3
-                        WHEN 'Четвер' THEN 4
-                        WHEN 'П''ятниця' THEN 5
-                        WHEN 'Субота' THEN 6
-                    END,
-                    s.start_time";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable weeklyScheduleTable = new DataTable();
-                    adapter.Fill(weeklyScheduleTable);
-
-                    // Створюємо нову таблицю для відображення
-                    DataTable displayTable = new DataTable();
-                    displayTable.Columns.Add("День", typeof(string));
-                    displayTable.Columns.Add("Час", typeof(string));
-                    displayTable.Columns.Add("Гурток", typeof(string));
-                    displayTable.Columns.Add("Викладач", typeof(string));
-                    displayTable.Columns.Add("Приміщення", typeof(string));
-
-                    foreach (DataRow row in weeklyScheduleTable.Rows)
-                    {
-                        TimeSpan startTime = (TimeSpan)row["start_time"];
-                        TimeSpan endTime = (TimeSpan)row["end_time"];
-
-                        displayTable.Rows.Add(
-                            row["day_of_week"],
-                            $"{startTime:hh\\:mm} - {endTime:hh\\:mm}",
-                            row["club_name"],
-                            row["teacher_name"],
-                            row["room"]
-                        );
-                    }
-
-                    dataGridView1.DataSource = displayTable;
-                    toolStripStatusLabel1.Text = "Тижневий розклад занять";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка при отриманні тижневого розкладу: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
 
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
@@ -656,104 +498,4 @@ namespace SchoolClubsApp
         }
     }
 
-    // Допоміжна форма для вибору учня
-    public class StudentSelectionForm : Form
-    {
-        private ComboBox cmbStudents;
-        private Button btnOK;
-        private Button btnCancel;
-
-        public int SelectedStudentId { get; private set; }
-        public string SelectedStudentName { get; private set; }
-
-        public StudentSelectionForm()
-        {
-            InitializeComponent();
-            LoadStudents();
-        }
-
-        private void InitializeComponent()
-        {
-            this.cmbStudents = new ComboBox();
-            this.btnOK = new Button();
-            this.btnCancel = new Button();
-
-            this.SuspendLayout();
-
-            // ComboBox
-            this.cmbStudents.DropDownStyle = ComboBoxStyle.DropDownList;
-            this.cmbStudents.FormattingEnabled = true;
-            this.cmbStudents.Location = new System.Drawing.Point(20, 20);
-            this.cmbStudents.Size = new System.Drawing.Size(300, 24);
-            this.cmbStudents.TabIndex = 0;
-
-            // OK Button
-            this.btnOK.Location = new System.Drawing.Point(20, 60);
-            this.btnOK.Size = new System.Drawing.Size(140, 30);
-            this.btnOK.Text = "OK";
-            this.btnOK.DialogResult = DialogResult.OK;
-            this.btnOK.Click += new EventHandler(btnOK_Click);
-
-            // Cancel Button
-            this.btnCancel.Location = new System.Drawing.Point(180, 60);
-            this.btnCancel.Size = new System.Drawing.Size(140, 30);
-            this.btnCancel.Text = "Скасувати";
-            this.btnCancel.DialogResult = DialogResult.Cancel;
-
-            // Form
-            this.ClientSize = new System.Drawing.Size(340, 110);
-            this.Controls.AddRange(new Control[] { this.cmbStudents, this.btnOK, this.btnCancel });
-            this.Text = "Виберіть учня";
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.StartPosition = FormStartPosition.CenterParent;
-
-            this.ResumeLayout(false);
-        }
-
-        private void LoadStudents()
-        {
-            string connectionString = @"Data Source=.;Initial Catalog=SchoolClubsDB;Integrated Security=True;";
-            string query = "SELECT student_id, last_name + ' ' + first_name as student_name FROM students ORDER BY last_name";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        cmbStudents.Items.Add(new
-                        {
-                            Text = reader["student_name"].ToString(),
-                            Value = reader["student_id"]
-                        });
-                    }
-                    reader.Close();
-
-                    if (cmbStudents.Items.Count > 0)
-                        cmbStudents.SelectedIndex = 0;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка завантаження учнів: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-            if (cmbStudents.SelectedItem != null)
-            {
-                dynamic selectedItem = cmbStudents.SelectedItem;
-                SelectedStudentId = selectedItem.Value;
-                SelectedStudentName = selectedItem.Text;
-            }
-        }
-    }
 }

@@ -52,16 +52,8 @@
             this.btnToolStripClearSearch = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.scheduleidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clubidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dayofweekDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.starttimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endtimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.roomDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.schedulesTableAdapter = new SchoolClubsApp.SchoolClubsDBDataSetTableAdapters.schedulesTableAdapter();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnWeeklySchedule = new System.Windows.Forms.Button();
-            this.btnShowStudentSchedule = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cmbRoomFilter = new System.Windows.Forms.ComboBox();
@@ -99,6 +91,12 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scheduleidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.club_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dayofweekDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.starttimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endtimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.roomDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.schedulesBindingSource)).BeginInit();
@@ -309,7 +307,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.scheduleidDataGridViewTextBoxColumn,
-            this.clubidDataGridViewTextBoxColumn,
+            this.club_id,
             this.dayofweekDataGridViewTextBoxColumn,
             this.starttimeDataGridViewTextBoxColumn,
             this.endtimeDataGridViewTextBoxColumn,
@@ -323,97 +321,28 @@
             this.dataGridView1.Size = new System.Drawing.Size(900, 639);
             this.dataGridView1.TabIndex = 0;
             // 
-            // scheduleidDataGridViewTextBoxColumn
-            // 
-            this.scheduleidDataGridViewTextBoxColumn.DataPropertyName = "schedule_id";
-            this.scheduleidDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.scheduleidDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.scheduleidDataGridViewTextBoxColumn.Name = "scheduleidDataGridViewTextBoxColumn";
-            this.scheduleidDataGridViewTextBoxColumn.ReadOnly = true;
-            this.scheduleidDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // clubidDataGridViewTextBoxColumn
-            // 
-            this.clubidDataGridViewTextBoxColumn.DataPropertyName = "club_id";
-            this.clubidDataGridViewTextBoxColumn.HeaderText = "ID гуртка";
-            this.clubidDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.clubidDataGridViewTextBoxColumn.Name = "clubidDataGridViewTextBoxColumn";
-            this.clubidDataGridViewTextBoxColumn.Width = 80;
-            // 
-            // dayofweekDataGridViewTextBoxColumn
-            // 
-            this.dayofweekDataGridViewTextBoxColumn.DataPropertyName = "day_of_week";
-            this.dayofweekDataGridViewTextBoxColumn.HeaderText = "День тижня";
-            this.dayofweekDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.dayofweekDataGridViewTextBoxColumn.Name = "dayofweekDataGridViewTextBoxColumn";
-            this.dayofweekDataGridViewTextBoxColumn.Width = 110;
-            // 
-            // starttimeDataGridViewTextBoxColumn
-            // 
-            this.starttimeDataGridViewTextBoxColumn.DataPropertyName = "start_time";
-            this.starttimeDataGridViewTextBoxColumn.HeaderText = "Час початку";
-            this.starttimeDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.starttimeDataGridViewTextBoxColumn.Name = "starttimeDataGridViewTextBoxColumn";
-            this.starttimeDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // endtimeDataGridViewTextBoxColumn
-            // 
-            this.endtimeDataGridViewTextBoxColumn.DataPropertyName = "end_time";
-            this.endtimeDataGridViewTextBoxColumn.HeaderText = "Час завершення";
-            this.endtimeDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.endtimeDataGridViewTextBoxColumn.Name = "endtimeDataGridViewTextBoxColumn";
-            this.endtimeDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // roomDataGridViewTextBoxColumn
-            // 
-            this.roomDataGridViewTextBoxColumn.DataPropertyName = "room";
-            this.roomDataGridViewTextBoxColumn.HeaderText = "Приміщення";
-            this.roomDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.roomDataGridViewTextBoxColumn.Name = "roomDataGridViewTextBoxColumn";
-            this.roomDataGridViewTextBoxColumn.Width = 120;
-            // 
             // schedulesTableAdapter
             // 
             this.schedulesTableAdapter.ClearBeforeFill = true;
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnWeeklySchedule);
-            this.panel2.Controls.Add(this.btnShowStudentSchedule);
+            this.panel2.Controls.Add(this.btnReset);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 666);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1200, 50);
             this.panel2.TabIndex = 2;
             // 
-            // btnWeeklySchedule
-            // 
-            this.btnWeeklySchedule.Location = new System.Drawing.Point(240, 10);
-            this.btnWeeklySchedule.Name = "btnWeeklySchedule";
-            this.btnWeeklySchedule.Size = new System.Drawing.Size(200, 30);
-            this.btnWeeklySchedule.TabIndex = 2;
-            this.btnWeeklySchedule.Text = "Тижневий розклад";
-            this.btnWeeklySchedule.UseVisualStyleBackColor = true;
-            this.btnWeeklySchedule.Click += new System.EventHandler(this.btnWeeklySchedule_Click);
-            // 
-            // btnShowStudentSchedule
-            // 
-            this.btnShowStudentSchedule.Location = new System.Drawing.Point(20, 10);
-            this.btnShowStudentSchedule.Name = "btnShowStudentSchedule";
-            this.btnShowStudentSchedule.Size = new System.Drawing.Size(200, 30);
-            this.btnShowStudentSchedule.TabIndex = 0;
-            this.btnShowStudentSchedule.Text = "Розклад учня";
-            this.btnShowStudentSchedule.UseVisualStyleBackColor = true;
-            this.btnShowStudentSchedule.Click += new System.EventHandler(this.btnShowStudentSchedule_Click);
-            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.groupBox5);
             this.panel3.Controls.Add(this.groupBox3);
+            this.panel3.Controls.Add(this.btnSort);
             this.panel3.Controls.Add(this.groupBox2);
+            this.panel3.Controls.Add(this.btnAggregate);
             this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Controls.Add(this.groupBox4);
-            this.panel3.Controls.Add(this.btnReset);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 27);
             this.panel3.Name = "panel3";
@@ -428,7 +357,7 @@
             this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Controls.Add(this.cmbDayFilter);
             this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Location = new System.Drawing.Point(12, 460);
+            this.groupBox5.Location = new System.Drawing.Point(12, 499);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(276, 120);
             this.groupBox5.TabIndex = 5;
@@ -499,7 +428,7 @@
             this.groupBox3.Controls.Add(this.cmbGroupField);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.btnSearch);
-            this.groupBox3.Location = new System.Drawing.Point(12, 330);
+            this.groupBox3.Location = new System.Drawing.Point(12, 373);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(276, 120);
             this.groupBox3.TabIndex = 4;
@@ -556,8 +485,7 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.cmbAggregateField);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.btnAggregate);
-            this.groupBox2.Location = new System.Drawing.Point(12, 230);
+            this.groupBox2.Location = new System.Drawing.Point(12, 246);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(276, 90);
             this.groupBox2.TabIndex = 3;
@@ -602,7 +530,7 @@
             // 
             // btnAggregate
             // 
-            this.btnAggregate.Location = new System.Drawing.Point(90, 55);
+            this.btnAggregate.Location = new System.Drawing.Point(102, 342);
             this.btnAggregate.Name = "btnAggregate";
             this.btnAggregate.Size = new System.Drawing.Size(170, 25);
             this.btnAggregate.TabIndex = 0;
@@ -619,9 +547,9 @@
             this.groupBox1.Controls.Add(this.cmbFilterField);
             this.groupBox1.Controls.Add(this.lblFilterField);
             this.groupBox1.Controls.Add(this.btnFilter);
-            this.groupBox1.Location = new System.Drawing.Point(12, 120);
+            this.groupBox1.Location = new System.Drawing.Point(12, 133);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(276, 110);
+            this.groupBox1.Size = new System.Drawing.Size(276, 107);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Фільтрація";
@@ -692,7 +620,6 @@
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.cmbSortField);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.btnSort);
             this.groupBox4.Location = new System.Drawing.Point(12, 20);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(276, 90);
@@ -704,7 +631,7 @@
             // 
             this.cmbSortOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSortOrder.FormattingEnabled = true;
-            this.cmbSortOrder.Location = new System.Drawing.Point(90, 55);
+            this.cmbSortOrder.Location = new System.Drawing.Point(90, 52);
             this.cmbSortOrder.Name = "cmbSortOrder";
             this.cmbSortOrder.Size = new System.Drawing.Size(170, 24);
             this.cmbSortOrder.TabIndex = 4;
@@ -738,7 +665,7 @@
             // 
             // btnSort
             // 
-            this.btnSort.Location = new System.Drawing.Point(90, 55);
+            this.btnSort.Location = new System.Drawing.Point(102, 102);
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(170, 25);
             this.btnSort.TabIndex = 0;
@@ -748,7 +675,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(12, 590);
+            this.btnReset.Location = new System.Drawing.Point(12, 6);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(276, 35);
             this.btnReset.TabIndex = 0;
@@ -774,6 +701,55 @@
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "Готово";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // scheduleidDataGridViewTextBoxColumn
+            // 
+            this.scheduleidDataGridViewTextBoxColumn.DataPropertyName = "schedule_id";
+            this.scheduleidDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.scheduleidDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.scheduleidDataGridViewTextBoxColumn.Name = "scheduleidDataGridViewTextBoxColumn";
+            this.scheduleidDataGridViewTextBoxColumn.ReadOnly = true;
+            this.scheduleidDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // club_id
+            // 
+            this.club_id.DataPropertyName = "club_id";
+            this.club_id.HeaderText = "ID гуртка";
+            this.club_id.MinimumWidth = 6;
+            this.club_id.Name = "club_id";
+            this.club_id.Width = 80;
+            // 
+            // dayofweekDataGridViewTextBoxColumn
+            // 
+            this.dayofweekDataGridViewTextBoxColumn.DataPropertyName = "day_of_week";
+            this.dayofweekDataGridViewTextBoxColumn.HeaderText = "День тижня";
+            this.dayofweekDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.dayofweekDataGridViewTextBoxColumn.Name = "dayofweekDataGridViewTextBoxColumn";
+            this.dayofweekDataGridViewTextBoxColumn.Width = 110;
+            // 
+            // starttimeDataGridViewTextBoxColumn
+            // 
+            this.starttimeDataGridViewTextBoxColumn.DataPropertyName = "start_time";
+            this.starttimeDataGridViewTextBoxColumn.HeaderText = "Час початку";
+            this.starttimeDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.starttimeDataGridViewTextBoxColumn.Name = "starttimeDataGridViewTextBoxColumn";
+            this.starttimeDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // endtimeDataGridViewTextBoxColumn
+            // 
+            this.endtimeDataGridViewTextBoxColumn.DataPropertyName = "end_time";
+            this.endtimeDataGridViewTextBoxColumn.HeaderText = "Час завершення";
+            this.endtimeDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.endtimeDataGridViewTextBoxColumn.Name = "endtimeDataGridViewTextBoxColumn";
+            this.endtimeDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // roomDataGridViewTextBoxColumn
+            // 
+            this.roomDataGridViewTextBoxColumn.DataPropertyName = "room";
+            this.roomDataGridViewTextBoxColumn.HeaderText = "Приміщення";
+            this.roomDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.roomDataGridViewTextBoxColumn.Name = "roomDataGridViewTextBoxColumn";
+            this.roomDataGridViewTextBoxColumn.Width = 120;
             // 
             // SchedulesForm
             // 
@@ -833,12 +809,6 @@
         private SchoolClubsDBDataSet schoolClubsDBDataSet;
         private System.Windows.Forms.BindingSource schedulesBindingSource;
         private SchoolClubsDBDataSetTableAdapters.schedulesTableAdapter schedulesTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn scheduleidDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clubidDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dayofweekDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn starttimeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn endtimeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn roomDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox txtToolStripSearch;
@@ -846,7 +816,6 @@
         private System.Windows.Forms.ToolStripButton btnToolStripClearSearch;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnShowStudentSchedule;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnSort;
@@ -884,6 +853,11 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox cmbRoomFilter;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnWeeklySchedule;
+        private System.Windows.Forms.DataGridViewTextBoxColumn scheduleidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn club_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dayofweekDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn starttimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn endtimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn roomDataGridViewTextBoxColumn;
     }
 }

@@ -61,16 +61,15 @@ namespace SchoolClubsApp
 
             // Заповнення комбобоксів
             cmbSortField.Items.AddRange(new string[] { "lesson_date", "status", "enrollment_id" });
-            cmbFilterField.Items.AddRange(new string[] { "attendance_id", "enrollment_id", "status", "lesson_date" });
+            cmbFilterField.Items.AddRange(new string[] { "attendance_id", "enrollment_id" });
             cmbAggregateField.Items.AddRange(new string[] { "attendance_id" });
-            cmbGroupField.Items.AddRange(new string[] { "status", "enrollment_id" });
+            cmbGroupField.Items.AddRange(new string[] { "enrollment_id" });
 
             cmbSortOrder.Items.AddRange(new string[] { "ASC", "DESC" });
             cmbAggregateFunction.Items.AddRange(new string[] { "COUNT", "MAX", "MIN" });
 
             // Заповнення комбобоксів для фільтрації
             LoadStatusFilter();
-            LoadClubs();
             LoadDateFilters();
 
             // Встановлення значень за замовчуванням
@@ -81,7 +80,6 @@ namespace SchoolClubsApp
             cmbAggregateFunction.SelectedIndex = 0;
             cmbGroupField.SelectedIndex = 0;
             cmbStatusFilter.SelectedIndex = 0;
-            cmbClubFilter.SelectedIndex = 0;
             cmbMonthFilter.SelectedIndex = 0;
         }
 
@@ -92,36 +90,6 @@ namespace SchoolClubsApp
             cmbStatusFilter.Items.Add("пропустив");
         }
 
-        private void LoadClubs()
-        {
-            string query = "SELECT club_id, club_name FROM clubs ORDER BY club_name";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    cmbClubFilter.Items.Add("Всі гуртки");
-                    while (reader.Read())
-                    {
-                        cmbClubFilter.Items.Add(new
-                        {
-                            Text = reader["club_name"].ToString(),
-                            Value = reader["club_id"]
-                        });
-                    }
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка завантаження гуртків: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
 
         private void LoadDateFilters()
         {
@@ -326,7 +294,6 @@ namespace SchoolClubsApp
             txtMaxValue.Text = "";
             txtConditionValue.Text = "";
             cmbStatusFilter.SelectedIndex = 0;
-            cmbClubFilter.SelectedIndex = 0;
             cmbMonthFilter.SelectedIndex = 0;
 
             this.attendanceTableAdapter.Fill(this.schoolClubsDBDataSet.attendance);
@@ -339,32 +306,24 @@ namespace SchoolClubsApp
         // Статистика відвідуваності за гуртком
         private void btnClubAttendance_Click(object sender, EventArgs e)
         {
-            if (cmbClubFilter.SelectedIndex == 0)
-            {
-                MessageBox.Show("Будь ласка, виберіть гурток для перегляду статистики", "Інформація",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            string selectedClub = cmbClubFilter.Text;
-            ShowClubAttendanceStats(selectedClub);
+            int id = Convert.ToInt32(textBox1.Text);
+            ShowClubAttendanceStats(id);
         }
 
-        private void ShowClubAttendanceStats(string clubName)
+        private void ShowClubAttendanceStats(int id)
         {
-            string periodFilter = GetPeriodFilter();
-
             string query = $@"
-                SELECT 
-                    COUNT(*) as total_lessons,
-                    SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) as attended_lessons,
-                    SUM(CASE WHEN a.status = 'пропустив' THEN 1 ELSE 0 END) as missed_lessons,
-                    CAST(SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as DECIMAL(5,2)) as attendance_percentage
-                FROM attendance a
-                INNER JOIN enrollments e ON a.enrollment_id = e.enrollment_id
-                INNER JOIN clubs c ON e.club_id = c.club_id
-                WHERE c.club_name LIKE '%{clubName.Split(' ')[0]}%' {periodFilter}";
-
+        SELECT 
+            c.club_name,
+            COUNT(*) as total_lessons,
+            SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) as attended_lessons,
+            SUM(CASE WHEN a.status = 'пропустив' THEN 1 ELSE 0 END) as missed_lessons,
+            CAST(SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as DECIMAL(5,2)) as attendance_percentage
+        FROM attendance a
+        INNER JOIN enrollments e ON a.enrollment_id = e.enrollment_id
+        INNER JOIN clubs c ON e.club_id = c.club_id
+        WHERE c.club_id = {id}
+        GROUP BY c.club_id, c.club_name";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -375,10 +334,11 @@ namespace SchoolClubsApp
 
                     if (reader.Read())
                     {
-                        int totalLessons = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
-                        int attendedLessons = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
-                        int missedLessons = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
-                        decimal attendancePercentage = reader.IsDBNull(3) ? 0 : reader.GetDecimal(3);
+                        string clubName = reader.IsDBNull(0) ? "Невідомий гурток" : reader.GetString(0);
+                        int totalLessons = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                        int attendedLessons = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
+                        int missedLessons = reader.IsDBNull(3) ? 0 : reader.GetInt32(3);
+                        decimal attendancePercentage = reader.IsDBNull(4) ? 0 : reader.GetDecimal(4);
 
                         string message = $"Статистика відвідуваності для гуртка: {clubName}\n\n";
                         message += $"Період: {cmbMonthFilter.Text}\n";
@@ -426,77 +386,6 @@ namespace SchoolClubsApp
             return periodFilter;
         }
 
-        // Детальна статистика по гуртку
-        private void btnDetailedStats_Click(object sender, EventArgs e)
-        {
-            if (cmbClubFilter.SelectedIndex == 0)
-            {
-                MessageBox.Show("Будь ласка, виберіть гурток для перегляду статистики", "Інформація",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            string selectedClub = cmbClubFilter.Text;
-            ShowDetailedClubStats(selectedClub);
-        }
-
-        private void ShowDetailedClubStats(string clubName)
-        {
-            string periodFilter = GetPeriodFilter();
-
-            string query = $@"
-                SELECT 
-                    s.last_name + ' ' + s.first_name as student_name,
-                    COUNT(*) as total_lessons,
-                    SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) as attended_lessons,
-                    SUM(CASE WHEN a.status = 'пропустив' THEN 1 ELSE 0 END) as missed_lessons,
-                    CAST(SUM(CASE WHEN a.status = 'відвідав' THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0) as DECIMAL(5,2)) as attendance_percentage
-                FROM attendance a
-                INNER JOIN enrollments e ON a.enrollment_id = e.enrollment_id
-                INNER JOIN students s ON e.student_id = s.student_id
-                INNER JOIN clubs c ON e.club_id = c.club_id
-                WHERE c.club_name LIKE '%{clubName.Split(' ')[0]}%' {periodFilter}
-                GROUP BY s.student_id, s.last_name, s.first_name
-                ORDER BY attendance_percentage DESC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable statsTable = new DataTable();
-                    adapter.Fill(statsTable);
-
-                    // Створюємо нову таблицю для відображення
-                    DataTable displayTable = new DataTable();
-                    displayTable.Columns.Add("Учень", typeof(string));
-                    displayTable.Columns.Add("Всього занять", typeof(int));
-                    displayTable.Columns.Add("Відвідано", typeof(int));
-                    displayTable.Columns.Add("Пропущено", typeof(int));
-                    displayTable.Columns.Add("Відсоток %", typeof(decimal));
-
-                    foreach (DataRow row in statsTable.Rows)
-                    {
-                        displayTable.Rows.Add(
-                            row["student_name"],
-                            row["total_lessons"],
-                            row["attended_lessons"],
-                            row["missed_lessons"],
-                            row["attendance_percentage"]
-                        );
-                    }
-
-                    dataGridView1.DataSource = displayTable;
-                    toolStripStatusLabel1.Text = $"Детальна статистика гуртка: {clubName} ({cmbMonthFilter.Text})";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Помилка при отриманні детальної статистики: " + ex.Message, "Помилка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
 
         // Фільтрація за статусом
         private void cmbStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -529,12 +418,6 @@ namespace SchoolClubsApp
                 statusFilter = $"status = '{selectedStatus}'";
             }
 
-            // Фільтр за гуртком
-            if (cmbClubFilter.SelectedIndex > 0)
-            {
-                string selectedClub = cmbClubFilter.Text;
-                clubFilter = $"enrollment_id IN (SELECT e.enrollment_id FROM enrollments e INNER JOIN clubs c ON e.club_id = c.club_id WHERE c.club_name LIKE '%{selectedClub.Split(' ')[0]}%')";
-            }
 
             // Фільтр за періодом
             if (cmbMonthFilter.SelectedIndex > 0)
@@ -651,6 +534,11 @@ namespace SchoolClubsApp
                 MessageBox.Show("Помилка при оновленні статусу: " + ex.Message, "Помилка",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
