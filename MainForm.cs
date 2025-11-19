@@ -54,8 +54,8 @@ namespace SchoolClubsApp
 
         private void розкладToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShedulesForm shedulesForm   = new ShedulesForm();
-            shedulesForm.Show();
+            SchedulesForm form   = new SchedulesForm();
+            form.Show();
         }
 
         private void записToolStripMenuItem_Click(object sender, EventArgs e)

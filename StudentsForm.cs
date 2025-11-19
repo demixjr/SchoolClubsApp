@@ -1,33 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml.XPath;
 
 namespace SchoolClubsApp
 {
     public partial class StudentsForm : Form
     {
-        private SqlConnection connection;
-        private string connectionString = @"Data Source=.;Initial Catalog=SchoolClubsDB;Integrated Security=True";
+        private string connectionString = @"Data Source=.;Initial Catalog=SchoolClubsDB;Integrated Security=True;";
 
         public StudentsForm()
         {
             InitializeComponent();
-            InitializeDatabaseConnection();
         }
-
-        private void InitializeDatabaseConnection()
-        {
-            connection = new SqlConnection(connectionString);
-        }
-
-
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -36,6 +23,25 @@ namespace SchoolClubsApp
                 this.studentsTableAdapter.Update(this.schoolClubsDBDataSet.students);
                 MessageBox.Show("Дані успішно оновлено", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                if (ex.Number == 547) // Код помилки конфлікту зовнішнього ключа
+                {
+                    MessageBox.Show("Не можна видалити учня, оскільки він записаний у гуртки.\n\n" +
+                                   "Спочатку видаліть всі записи цього учня з гуртків.",
+                                   "Помилка видалення",
+                                   MessageBoxButtons.OK,
+                                   MessageBoxIcon.Error);
+
+                    this.schoolClubsDBDataSet.students.RejectChanges();
+                    this.studentsTableAdapter.Fill(this.schoolClubsDBDataSet.students);
+                }
+                else
+                {
+                    MessageBox.Show("Помилка бази даних: " + ex.Message, "Помилка",
+                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("Сталася помилка: " + ex.Message, "Помилка",
@@ -43,313 +49,276 @@ namespace SchoolClubsApp
             }
         }
 
-
         private void StudentsForm_Load(object sender, EventArgs e)
         {
-            try
-            {
-                LoadStudents();
-                LoadClassFilter();
-                LoadClassesForQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка завантаження даних: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            this.studentsTableAdapter.Fill(this.schoolClubsDBDataSet.students);
+            dataGridView1.DataSource = studentsBindingSource;
+
+            // Заповнення комбобоксів
+            cmbSortField.Items.AddRange(new string[] { "last_name", "first_name", "class", "parent_phone" });
+            cmbGroupField.Items.AddRange(new string[] { "last_name", "first_name", "class" });
+
+            cmbSortOrder.Items.AddRange(new string[] { "ASC", "DESC" });
+         
+
+            // Заповнення комбобоксу для фільтрації за класом
+            cmbClassFilter.Items.Add("Всі класи");
+            LoadClasses();
+
+            // Встановлення значень за замовчуванням
+            cmbSortField.SelectedIndex = 0;
+            cmbSortOrder.SelectedIndex = 0;
+            cmbGroupField.SelectedIndex = 0;
+            cmbClassFilter.SelectedIndex = 0;
         }
 
-        private void LoadStudents()
+        private void LoadClasses()
         {
-            try
+            string query = "SELECT DISTINCT class FROM students ORDER BY class";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM students ORDER BY last_name, first_name";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-                dataGridView1.DataSource = dataTable;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка завантаження студентів: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void LoadClassFilter()
-        {
-            try
-            {
-                comboBoxClassFilter.Items.Clear();
-                comboBoxClassFilter.Items.Add("Всі класи");
-
-                string query = "SELECT DISTINCT class FROM students ORDER BY class";
-                SqlCommand command = new SqlCommand(query, connection);
-
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                try
                 {
-                    comboBoxClassFilter.Items.Add(reader["class"].ToString());
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        cmbClassFilter.Items.Add(reader["class"].ToString());
+                    }
+                    reader.Close();
                 }
-                reader.Close();
-                connection.Close();
-
-                comboBoxClassFilter.SelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка завантаження фільтрів: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open)
-                    connection.Close();
-            }
-        }
-
-        private void LoadClassesForQuery()
-        {
-            try
-            {
-                comboBoxClassQuery.Items.Clear();
-
-                string query = "SELECT DISTINCT class FROM students ORDER BY class";
-                SqlCommand command = new SqlCommand(query, connection);
-
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                catch (Exception ex)
                 {
-                    comboBoxClassQuery.Items.Add(reader["class"].ToString());
+                    MessageBox.Show("Помилка завантаження класів: " + ex.Message, "Помилка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                reader.Close();
-                connection.Close();
-
-                if (comboBoxClassQuery.Items.Count > 0)
-                    comboBoxClassQuery.SelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка завантаження класів: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open)
-                    connection.Close();
             }
         }
 
-        // 1. Пошук учня за прізвищем, ім'ям або класом
+        // Сортування
+        private void btnSort_Click(object sender, EventArgs e)
+        {
+            string field = cmbSortField.Text;
+            string order = cmbSortOrder.Text;
+
+            if (!string.IsNullOrEmpty(field) && !string.IsNullOrEmpty(order))
+            {
+                string query = $"SELECT * FROM students ORDER BY {field} {order}";
+                ExecuteQueryAndDisplay(query);
+            }
+            else
+            {
+                MessageBox.Show("Будь ласка, виберіть поле та порядок сортування", "Попередження",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+
+        // Пошук
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string searchText = txtSearch.Text.Trim();
+            string groupField = cmbGroupField.Text;
+            string conditionValue = txtConditionValue.Text;
+
+            if (!string.IsNullOrEmpty(groupField) && !string.IsNullOrEmpty(conditionValue))
+            {
+                string query = $"SELECT * FROM students WHERE {groupField} LIKE '%{conditionValue}%'";
+                ExecuteQueryAndDisplay(query);
+            }
+            else
+            {
+                MessageBox.Show("Будь ласка, виберіть поле та введіть значення для пошуку", "Попередження",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // Допоміжний метод для виконання запиту та відображення результатів
+        private void ExecuteQueryAndDisplay(string query)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+
+                    dataGridView1.DataSource = dataTable;
+
+                    toolStripStatusLabel1.Text = $"Знайдено записів: {dataTable.Rows.Count}";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка виконання запиту: " + ex.Message, "Помилка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // Скидання фільтрів
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            txtConditionValue.Text = "";
+            cmbClassFilter.SelectedIndex = 0;
+
+            this.studentsTableAdapter.Fill(this.schoolClubsDBDataSet.students);
+            dataGridView1.DataSource = studentsBindingSource;
+
+            toolStripStatusLabel1.Text = "Фільтри скинуто";
+        }
+
+        // Перегляд розкладу учня
+        private void btnShowSchedule_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виберіть учня зі списку", "Інформація",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DataGridViewRow selectedRow = dataGridView1.CurrentRow;
+            string studentName = $"{selectedRow.Cells["last_name"].Value} {selectedRow.Cells["first_name"].Value}";
+            int studentId = Convert.ToInt32(selectedRow.Cells["student_id"].Value);
+
+            ShowStudentSchedule(studentId, studentName);
+        }
+
+        private void ShowStudentSchedule(int studentId, string studentName)
+        {
+            string query = $@" 
+                SELECT * FROM enrollments e INNER JOIN clubs c ON e.club_id = c.club_id INNER JOIN schedules sc ON c.club_id = sc.club_id  
+                WHERE e.student_id = {studentId}";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable scheduleTable = new DataTable();
+                    adapter.Fill(scheduleTable);
+                    dataGridView1.AutoGenerateColumns = true;
+                    dataGridView1.DataSource = scheduleTable;
+
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка при отриманні розкладу: " + ex.Message, "Помилка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // Пошук учнів без гуртків
+        private void btnFindWithoutClubs_Click(object sender, EventArgs e)
+        {
+            string selectedClass = cmbClassFilter.Text;
+            string query;
+
+           
+                query = $@"
+                    SELECT s.* 
+                    FROM students s 
+                    LEFT JOIN clubs sc ON s.student_id = sc.student_id 
+                    WHERE sc.student_id IS NULL AND s.class = '{selectedClass}'";
+            
+
+            ExecuteQueryAndDisplay(query);
+            toolStripStatusLabel1.Text = $"Учні {selectedClass} без гуртків";
+        }
+
+        // Статистика учнів з більш ніж одним гуртком
+        private void btnMultipleClubs_Click(object sender, EventArgs e)
+        {
+            string query = @"
+                SELECT COUNT(*) as student_count
+                FROM (
+                    SELECT student_id 
+                    FROM enrollments
+                    GROUP BY student_id 
+                    HAVING COUNT(*) > 1
+                ) as multiple_clubs";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    object result = command.ExecuteScalar();
+
+                    MessageBox.Show($"Кількість учнів, які відвідують більше одного гуртка: {result}",
+                                  "Статистика",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка при отриманні статистики: " + ex.Message, "Помилка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // Фільтрація за класом
+        private void cmbClassFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedClass = cmbClassFilter.Text;
+
+            if (selectedClass == "Всі класи")
+            {
+                studentsBindingSource.RemoveFilter();
+            }
+            else
+            {
+                studentsBindingSource.Filter = $"class = '{selectedClass}'";
+            }
+
+            toolStripStatusLabel1.Text = $"Клас: {selectedClass}";
+        }
+        // Пошук в панелі інструментів
+        private void btnToolStripSearch_Click(object sender, EventArgs e)
+        {
+            string searchText = txtToolStripSearch.Text.Trim().ToLower();
 
             if (string.IsNullOrEmpty(searchText))
             {
-                LoadStudents();
+                studentsBindingSource.RemoveFilter();
+                toolStripStatusLabel1.Text = "Пошук скинуто";
                 return;
             }
 
-            try
-            {
-                string query = @"
-                    SELECT * FROM students 
-                    WHERE last_name LIKE @search 
-                       OR first_name LIKE @search 
-                       OR class LIKE @search 
-                    ORDER BY last_name, first_name";
+            string filter = $"last_name LIKE '%{searchText}%' OR " +
+                           $"first_name LIKE '%{searchText}%' OR " +
+                           $"patronymic LIKE '%{searchText}%' OR " +
+                           $"class LIKE '%{searchText}%' OR " +
+                           $"parent_phone LIKE '%{searchText}%' OR " +
+                           $"email LIKE '%{searchText}%'";
 
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@search", "%" + searchText + "%");
-
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-
-                dataGridView1.DataSource = dataTable;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка пошуку: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            studentsBindingSource.Filter = filter;
+            toolStripStatusLabel1.Text = $"Знайдено за запитом: '{searchText}'";
         }
 
-        // 2. Фільтрація учнів за класом
-        private void btnFilterByClass_Click(object sender, EventArgs e)
+        // Очищення пошуку в панелі інструментів
+        private void btnToolStripClearSearch_Click(object sender, EventArgs e)
         {
-            if (comboBoxClassFilter.SelectedItem?.ToString() == "Всі класи")
-            {
-                LoadStudents();
-                return;
-            }
-
-            string selectedClass = comboBoxClassFilter.SelectedItem.ToString();
-
-            try
-            {
-                string query = "SELECT * FROM students WHERE class = @class ORDER BY last_name, first_name";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@class", selectedClass);
-
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-
-                dataGridView1.DataSource = dataTable;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка фільтрації: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            txtToolStripSearch.Text = "";
+            studentsBindingSource.RemoveFilter();
+            toolStripStatusLabel1.Text = "Пошук скинуто";
         }
 
-        // 3. Сортування списку учнів за прізвищем
-        private void btnSortByLastName_Click(object sender, EventArgs e)
+        private void toolStripLabel1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string query = "SELECT * FROM students ORDER BY last_name, first_name, patronymic";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
 
-                dataGridView1.DataSource = dataTable;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка сортування: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
-        // 4. Сортування списку учнів за класом
-        private void btnSortByClass_Click(object sender, EventArgs e)
+        private void groupBox5_Enter(object sender, EventArgs e)
         {
-            try
-            {
-                string query = "SELECT * FROM students ORDER BY class, last_name, first_name";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
 
-                dataGridView1.DataSource = dataTable;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка сортування: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
-
-        // 5. Хто з учнів {клас} класу не записаний жоден гурток?
-        private void btnStudentsWithoutClubs_Click(object sender, EventArgs e)
-        {
-            if (comboBoxClassQuery.SelectedItem == null)
-            {
-                MessageBox.Show("Будь ласка, виберіть клас", "Попередження",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string selectedClass = comboBoxClassQuery.SelectedItem.ToString();
-
-            try
-            {
-                string query = @"
-                    SELECT s.student_id, s.last_name, s.first_name, s.patronymic, s.class
-                    FROM students s
-                    WHERE s.class = @class 
-                    AND s.student_id NOT IN (
-                        SELECT student_id FROM student_clubs
-                    )";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@class", selectedClass);
-
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable resultTable = new DataTable();
-                adapter.Fill(resultTable);
-
-                dataGridViewQueryResults.DataSource = resultTable;
-                dataGridViewQueryResults.Visible = true;
-
-                MessageBox.Show($"Знайдено {resultTable.Rows.Count} учнів без гуртків у {selectedClass} класі",
-                    "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка виконання запиту: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // 6. Скільки учнів відвідують більше одного гуртка?
-        private void btnMultipleClubs_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Запит для підрахунку кількості
-                string countQuery = @"
-                    SELECT COUNT(*) as student_count
-                    FROM (
-                        SELECT student_id 
-                        FROM student_clubs 
-                        GROUP BY student_id 
-                        HAVING COUNT(*) > 1
-                    ) as multiple_club_students";
-
-                SqlCommand countCommand = new SqlCommand(countQuery, connection);
-                connection.Open();
-                int count = Convert.ToInt32(countCommand.ExecuteScalar());
-                connection.Close();
-
-                // Детальний запит для відображення
-                string detailedQuery = @"
-                    SELECT s.student_id, s.last_name, s.first_name, s.patronymic, s.class,
-                           COUNT(sc.club_id) as club_count
-                    FROM students s
-                    JOIN student_clubs sc ON s.student_id = sc.student_id
-                    GROUP BY s.student_id, s.last_name, s.first_name, s.patronymic, s.class
-                    HAVING COUNT(sc.club_id) > 1
-                    ORDER BY club_count DESC, s.last_name, s.first_name";
-
-                SqlCommand detailedCommand = new SqlCommand(detailedQuery, connection);
-                SqlDataAdapter adapter = new SqlDataAdapter(detailedCommand);
-                DataTable resultTable = new DataTable();
-                adapter.Fill(resultTable);
-
-                dataGridViewQueryResults.DataSource = resultTable;
-                dataGridViewQueryResults.Visible = true;
-
-                MessageBox.Show($"{count} учнів відвідують більше одного гуртка",
-                    "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Помилка виконання запиту: " + ex.Message, "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open)
-                    connection.Close();
-            }
-        }
-
-        // Скидання пошуку
-        private void btnClearSearch_Click(object sender, EventArgs e)
-        {
-            txtSearch.Clear();
-            LoadStudents();
-        }
-
- 
     }
 }
